@@ -9,6 +9,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
+import ManagerReport from '../screens/managerReport/ManagerReport';
+
 
 const DIMENS = {
     iconSize: 30,
@@ -21,6 +23,7 @@ const switchNavigator = createSwitchNavigator({
                 Home,
                 CategoryList,
                 ManagerApp,
+                ManagerReport,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
