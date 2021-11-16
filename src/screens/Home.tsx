@@ -13,7 +13,7 @@ export default function Home() {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <HeaderBar />
                 <View style={styles.viewShop}>
-                    <View style={{flex:1}}>
+                    <View style={{ flex: 1 }}>
                         <Image style={styles.imgShop} source={{ uri: 'https://www.elleman.vn/wp-content/uploads/2020/06/03/179235/cover-logo-thuong-hieu-elle-man-0620-logoworks.png' }} />
                     </View>
                     <View style={styles.shopContainer}>
@@ -32,7 +32,7 @@ export default function Home() {
                     <Menu icon="picture" title="Quản lý slide" description="Quản lý slider của app" />
                     <Menu icon="addusergroup" title="Quản lý các shop" description="Quản lý những người bán hàng" />
                     <Menu icon="notification" title="Thông báo" description="Thông báo tới các shop" />
-                    <Menu icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
+                    <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
                 </View>
 
             </ScrollView>
