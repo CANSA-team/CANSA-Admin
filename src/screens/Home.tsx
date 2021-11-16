@@ -25,7 +25,7 @@ export default function Home() {
                     <Menu onTab={() => navigate('ManagerApp')} icon="sync" title="Quản lý App" description="Quản lý các thông tin app" />
                     <Menu onTab={() => navigate('CategoryList')} icon="appstore-o" title="Quản lý danh mục" description="Quản lý các danh mục của app tại đây" />
                     <Menu icon="picture" title="Quản lý slide" description="Quản lý slider của app" />
-                    <Menu icon="addusergroup" title="Quản lý các shop" description="Quản lý những người bán hàng" />
+                    <Menu onTab={() => navigate('ManagerShop')} icon="addusergroup" title="Quản lý các shop" description="Quản lý những người bán hàng" />
                     <Menu icon="notification" title="Thông báo" description="Thông báo tới các shop" />
                     <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
                 </View>
