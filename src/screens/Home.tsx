@@ -17,8 +17,13 @@ export default function Home() {
                         <Image style={styles.imgShop} source={{ uri: 'https://www.elleman.vn/wp-content/uploads/2020/06/03/179235/cover-logo-thuong-hieu-elle-man-0620-logoworks.png' }} />
                     </View>
                     <View style={styles.shopContainer}>
-                        <Text style={{ fontSize: 22, color: "#222" }}>Quản lí các hoạt động của App</Text>
+                        <Text style={{ fontSize: 20, color: "#222",fontWeight:'bold' }}>Quản lí các hoạt động của App</Text>
+                        <View style={{flexDirection:'row',flexWrap:'wrap'}}>
+                            <Text style={{fontSize:14}}>Lượng truy cập app : </Text>
+                            <Text style={{fontSize:14}}>4000000000 lượt</Text>
+                        </View>
                     </View>
+                    
                 </View>
                 <Text style={styles.txtAction}>Actions :</Text>
                 <View style={styles.menuList}>
