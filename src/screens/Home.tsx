@@ -1,13 +1,36 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
+import HeaderBar from '../components/HeaderBar';
+import Menu from '../components/Menu';
 import COLORS from '../consts/Colors';
+import { useNavigation } from '../utils/useNavigation';
 
 
 export default function Home() {
-
+    const { navigate } = useNavigation();
     return (
         <View style={styles.container}>
-            <Text>Home</Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <HeaderBar />
+                <View style={styles.viewShop}>
+                    <View style={{flex:1}}>
+                        <Image style={styles.imgShop} source={{ uri: 'https://www.elleman.vn/wp-content/uploads/2020/06/03/179235/cover-logo-thuong-hieu-elle-man-0620-logoworks.png' }} />
+                    </View>
+                    <View style={styles.shopContainer}>
+                        <Text style={{ fontSize: 22, color: "#222" }}>Quản lí các hoạt động của App</Text>
+                    </View>
+                </View>
+                <Text style={styles.txtAction}>Actions :</Text>
+                <View style={styles.menuList}>
+                    <Menu onTab={() => navigate('ManagerApp')} icon="sync" title="Quản lý App" description="Quản lý các thông tin app" />
+                    <Menu onTab={() => navigate('CategoryList')} icon="appstore-o" title="Quản lý danh mục" description="Quản lý các danh mục của app tại đây" />
+                    <Menu icon="picture" title="Quản lý slide" description="Quản lý slider của app" />
+                    <Menu icon="addusergroup" title="Quản lý các shop" description="Quản lý những người bán hàng" />
+                    <Menu icon="notification" title="Thông báo" description="Thông báo tới các shop" />
+                    <Menu icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
+                </View>
+
+            </ScrollView>
         </View>
     )
 }
@@ -24,6 +47,7 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     shopContainer: {
+        flex: 2,
         marginLeft: 10,
         justifyContent: 'center',
     },

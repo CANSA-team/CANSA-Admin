@@ -4,7 +4,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import COLORS from '../consts/Colors';
 import Home from '../screens/Home';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Account from '../screens/Account';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CategoryList from '../screens/managerCategory/CategoryList';
+import ManagerApp from '../screens/mangerApp/ManagerApp';
 
 const DIMENS = {
     iconSize: 30,
@@ -14,7 +18,9 @@ const switchNavigator = createSwitchNavigator({
     homeStack: createBottomTabNavigator({
         home: {
             screen: createStackNavigator({
-                Home: Home,
+                Home,
+                CategoryList,
+                ManagerApp,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -22,14 +28,32 @@ const switchNavigator = createSwitchNavigator({
 
             }),
             navigationOptions: {
-                tabBarIcon: ({ focused, tintColor }) => {
-                    let icon = focused ? <MaterialCommunityIcons name="storefront" size={DIMENS.iconSize} color={COLORS.primary} /> : <MaterialCommunityIcons name="storefront-outline" size={DIMENS.iconSize} color={COLORS.colorFontInit} />
+                tabBarIcon: ({ focused }) => {
+                    let icon = focused ? <FontAwesome name="pagelines" size={DIMENS.iconSize} color={COLORS.primary} /> : <FontAwesome name="pagelines" size={DIMENS.iconSize} color='gray' />
                     return icon;
                 },
-                tabBarLabel: "Cửa hàng"
+                tabBarLabel: "Admin"
             },
 
-        }
+        },
+        account: {
+            screen: createStackNavigator({
+                Account,
+            }, {
+                defaultNavigationOptions: {
+                    headerShown: false,
+                },
+
+            }),
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    let icon = focused ? <Ionicons name="person" size={DIMENS.iconSize} color={COLORS.primary} /> : <Ionicons name="person" size={DIMENS.iconSize} color='gray' />
+                    return icon;
+                },
+                tabBarLabel: "Tài khoản"
+            },
+
+        },
     }
         , {
             tabBarOptions: {
