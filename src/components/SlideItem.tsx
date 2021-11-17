@@ -8,9 +8,10 @@ const WIDTH = Dimensions.get('window').width;
 interface SlideProps{
     slide: SliderModel;
     onTapEdit:Function;
+    onTapDelete:Function;
 }
 export default function SlideItem(props:SlideProps) {
-    const { slide, onTapEdit }:SlideProps = props;
+    const { slide, onTapEdit, onTapDelete }:SlideProps = props;
     const swipeableRef = useRef<any>(null);
 
     const closeSwipeable = () => {
@@ -21,11 +22,11 @@ export default function SlideItem(props:SlideProps) {
         closeSwipeable();
         onTapEdit();
     }
-    
+
     const boxRenderRight = ()=>{
         return (
             <>
-                <TouchableOpacity style={{width:75,height:110,backgroundColor:'#f53a4c',justifyContent:'center',alignItems:'center'}}>
+                <TouchableOpacity onPress={()=>onTapDelete()} style={{width:75,height:110,backgroundColor:'#f53a4c',justifyContent:'center',alignItems:'center'}}>
                     <AntDesign name="delete" style={{fontSize:22,color:'#fff'}}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={swEdit} style={{width:80,height:110,backgroundColor:'#007bff',justifyContent:'center',alignItems:'center'}}>

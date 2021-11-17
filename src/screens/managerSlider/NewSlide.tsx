@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import  MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderTitle from '../../components/HeaderTitle';
 import COLORS from '../../consts/Colors';
@@ -11,9 +11,17 @@ export default function NewSlide(props: any) {
     const { control, handleSubmit, formState: { errors } } = useForm();
     const [avatarError, setAvatarError] = useState<boolean>(false);
     const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494');
+   
     //submit form, lay du lieu tu data
     const onSubmitForm = (data:any)=>{
-        console.log(data)
+        Alert.alert(
+            "Thông báo!",
+            'Xác nhận thêm slide',
+            [
+                { text: "Xác nhận", onPress: () => console.log(data) },
+                { text: "Huỷ" }
+            ]
+        );
     }
 
     //lay anh
@@ -22,7 +30,7 @@ export default function NewSlide(props: any) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [3, 3],
+            aspect: [8, 3],
             quality: 1,
         });
 
@@ -41,8 +49,11 @@ export default function NewSlide(props: any) {
             <View style={{marginHorizontal:10}}>
                 <Text style={[styles.txtTitle,{marginTop:20,marginBottom:5}]}>Chọn ảnh :</Text>
                 <TouchableOpacity onPress={getImg} style={{marginBottom:20}}>
-                    <Image source={{uri:avatar}} style={{width:'100%',height:150}} />
+                    <Image source={{uri:avatar}} style={{width:'100%',height:150,resizeMode:'contain'}} />
                 </TouchableOpacity>
+                {avatarError && <Text style={styles.txtError}>* Hình ảnh phải có</Text>}
+
+
                 <Text style={styles.txtTitle}>Tiêu đề slide :</Text>
                 <View style={styles.textAreaContainer}>
                     <Controller
@@ -53,7 +64,7 @@ export default function NewSlide(props: any) {
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                style={styles.txtTitle}
+                                style={{fontSize:18,color:'#333'}}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 underlineColorAndroid="transparent"
@@ -113,5 +124,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#333',
         marginBottom: 5,
+        fontWeight:'700'
     },
 });

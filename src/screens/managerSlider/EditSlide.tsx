@@ -12,6 +12,7 @@ export default function EditSlide(props: any) {
     const { control, handleSubmit, formState: { errors } } = useForm();
     const [avatarError, setAvatarError] = useState<boolean>(false);
     const [avatar, setAvatar] = useState<string>('');
+    const [statusSwitch, setStatusSwitch] = useState<number>(1)
     const slide =  {
         slider_id: 1,
         slider_image: "https://103.207.38.200:333/api/image/photo/374/e4611a028c71342a5b083d2cbf59c494",
@@ -22,11 +23,12 @@ export default function EditSlide(props: any) {
     
     useEffect(() => {
         setAvatar(slide.slider_image)
+        setStatusSwitch(slide.status)
     }, [])
 
     //submit form, lay du lieu tu data
     const onSubmitForm = (data:any)=>{
-        console.log(data)
+        console.log(data,statusSwitch)
     }
 
     //lay anh
@@ -35,7 +37,7 @@ export default function EditSlide(props: any) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [3, 3],
+            aspect: [8, 3],
             quality: 1,
         });
 
@@ -54,7 +56,7 @@ export default function EditSlide(props: any) {
             <View style={{marginHorizontal:10}}>
                 <Text style={[styles.txtTitle,{marginTop:20,marginBottom:5}]}>Chọn ảnh :</Text>
                 <TouchableOpacity onPress={getImg} style={{marginBottom:20}}>
-                    <Image source={{uri:slide.slider_image}} style={{width:'100%',height:150}} />
+                    <Image source={{uri:slide.slider_image}} style={{width:'100%',height:150,resizeMode:'contain'}} />
                 </TouchableOpacity>
                       
                 <Text style={styles.txtTitle}>Tiêu đề slide :</Text>
@@ -67,7 +69,7 @@ export default function EditSlide(props: any) {
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                style={styles.txtTitle}
+                                style={{fontSize:18,color:'#333'}}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 underlineColorAndroid="transparent"
@@ -85,16 +87,17 @@ export default function EditSlide(props: any) {
                 </View>
                 {errors.slider_title && <Text style={styles.txtError}>* Tiêu đề cho slide phải có và dưới 15 ký tự</Text>}
                 
-                <View>
-                    <View style={{flex:1}}>
-
-                    </View>
-                    <View style={{flex:1}}>
-
-                    </View>
+                <Text style={[styles.txtTitle,{marginTop:20}]}>Trạng thái slide :</Text>
+                <View style={{flexDirection:'row',borderRadius:5}}>
+                    <TouchableOpacity onPress={()=>setStatusSwitch(1)} style={statusSwitch ? styles.btnOn : styles.btnOff}>
+                        <Text style={statusSwitch ? styles.txtOn : styles.txtOff}>Bật</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>setStatusSwitch(0)} style={statusSwitch ? styles.btnOff : styles.btnOn}>
+                        <Text style={statusSwitch ? styles.txtOff : styles.txtOn}>Tắt</Text>
+                    </TouchableOpacity>
                 </View>
                         
-                <TouchableOpacity onPress={handleSubmit(onSubmitForm)} style={{backgroundColor:COLORS.primary,borderRadius:6,marginTop:20}}>
+                <TouchableOpacity onPress={handleSubmit(onSubmitForm)} style={{backgroundColor:COLORS.primary,borderRadius:6,marginTop:40}}>
                     <View style={{padding:8}}>
                         <Text style={{textAlign:'center',fontSize:18,color:'#fff'}}>Thêm</Text>
                     </View>
@@ -107,6 +110,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor:'#fff'
+    },
+    btnOn:{
+        flex:1,
+        backgroundColor:COLORS.primary,
+        padding:8,
+    },
+    txtOn:{
+        color:"#fff",
+        textAlign:'center',
+        fontSize:18,
+        fontWeight:'bold'
+    },
+    btnOff:{
+        flex:1,
+        borderColor:COLORS.primary,
+        borderWidth:1,
+        padding:8
+    },
+    txtOff:{
+        color:COLORS.primary,
+        textAlign:'center',
+        fontSize:18
     },
     header: {
         flexDirection: 'row',
@@ -135,6 +160,7 @@ const styles = StyleSheet.create({
     txtTitle: {
         fontSize: 18,
         color: '#333',
-        marginBottom: 5,
+        marginBottom: 6,
+        fontWeight:'700'
     },
 });
