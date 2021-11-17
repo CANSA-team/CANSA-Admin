@@ -10,10 +10,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
-import ManagerShop from '../screens/managerShop/ManagerShop';
 import ManagerSlider from './../screens/managerSlider/ManagerSlider';
 import NewSlide from '../screens/managerSlider/NewSlide';
 import EditSlide from '../screens/managerSlider/EditSlide';
+import ManagerShop from '../screens/managerShop/ManagerShop';
 
 const DIMENS = {
     iconSize: 30,

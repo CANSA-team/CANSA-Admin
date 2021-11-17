@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View, ActivityIndicator, Alert } from 'react-native';
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -85,6 +85,17 @@ export default function ManagerSlider(props: any) {
         navigate('EditSlide', { slide })
     }
 
+    const onTapDelete = (slider_id:number) =>{
+        Alert.alert(
+            "Thông báo!",
+            'Xác nhận xoá slide',
+            [
+                { text: "Xác nhận", onPress: () => console.log(slider_id) },
+                { text: "Huỷ" }
+            ]
+        );
+    }
+
     return (
         <View style={styles.container}>
             <HeaderTitle title="Quản lí Slider" />
@@ -111,7 +122,7 @@ export default function ManagerSlider(props: any) {
                             {
                                 slider.length &&
                                 slider.map((slide:SliderModel)=>
-                                    <SlideItem onTapEdit={()=>onTapEdit(slide)} key={slide.slider_id} slide={slide} /> 
+                                    <SlideItem onTapDelete={()=>onTapDelete(slide.slider_id)} onTapEdit={()=>onTapEdit(slide)} key={slide.slider_id} slide={slide} /> 
                                 )
                             }
                             {
