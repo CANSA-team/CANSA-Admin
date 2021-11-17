@@ -1,16 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderTitle from '../../components/HeaderTitle';
 import { Controller, useForm } from 'react-hook-form';
 import COLORS from '../../consts/Colors';
+import { AdminState, CommissionModel, getCommission, getShip, ShipModel, State, updateCommission, updateShip } from '../../redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function ManagerApp(props: any) {
     const { navigation } = props;
     const { control: controlCommission, formState: { errors: errorCommission }, handleSubmit: handleSubmitCommission, } = useForm({ mode: "onBlur" });
     const { control: controlShip, formState: { errors: errorShip }, handleSubmit: handleSubmitShip, } = useForm({ mode: "onBlur", });
-    const ship_price = 0;
-    const commission_rate = 0;
+    const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
+    const { commission_rate, ship_price }: { commission_rate: CommissionModel, ship_price: ShipModel } = adminSate;
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCommission());
+        dispatch(getShip());
+    }, [])
+
+    useEffect(() => {
+        if (commission_rate && ship_price && Object.keys(commission_rate).length && Object.keys(ship_price).length) {
+            setIsLoading(false);
+        }
+    }, [adminSate])
+
+    const _updateCommission = (data: any) => {
+        setIsLoading(true);
+        dispatch(updateCommission(data.commission, commission_rate.last_update));
+    }
+
+    const _updateShip = (data: any) => {
+        setIsLoading(true);
+        dispatch(updateShip(data.ship_price, ship_price.last_update));
+    }
 
     //Xu ly hoa hong
     const onSubmitCommission = (data: any) => {
@@ -18,7 +43,7 @@ export default function ManagerApp(props: any) {
             "Thông báo!",
             'Xác nhận sửa',
             [
-                { text: "Xác nhận", onPress: () => console.log(data) },
+                { text: "Xác nhận", onPress: () => _updateCommission(data) },
                 { text: "Huỷ" }
             ]
         );
@@ -30,7 +55,7 @@ export default function ManagerApp(props: any) {
             "Thông báo!",
             'Xác nhận sửa',
             [
-                { text: "Xác nhận", onPress: () => console.log(data) },
+                { text: "Xác nhận", onPress: () => _updateShip(data) },
                 { text: "Huỷ" }
             ]
         );
@@ -44,74 +69,81 @@ export default function ManagerApp(props: any) {
                     <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                 </TouchableOpacity>
             </View>
-            <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-                <Text style={{ fontSize: 18 }}>Tỉ lệ hoa hồng : </Text>
-                <Controller
-                    control={controlCommission}
-                    rules={{
-                        required: true,
-                        min: 0,
-                        max: 99,
-                        pattern: /[0-9]/g
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            style={styles.txtNumber}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            underlineColorAndroid="transparent"
-                            placeholder="Nhập phần trăm giảm nếu có ( 1 - 99 )"
-                            placeholderTextColor="#888"
-                            keyboardType="numeric"
-                            multiline={true}
-                            value={value}
-                        />
-                    )}
-                    name="commission"
-                    defaultValue={commission_rate.toString()}
-                />
-                {errorCommission.commission && <Text style={styles.txtError}>* Hoa hồng từ 0 - 99</Text>}
+            {
+                isLoading ?
+                    <View></View>
+                    :
+                    <>
+                        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+                            <Text style={{ fontSize: 18 }}>Tỉ lệ hoa hồng : </Text>
+                            <Controller
+                                control={controlCommission}
+                                rules={{
+                                    required: true,
+                                    min: 0,
+                                    max: 99,
+                                    pattern: /[0-9]/g
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.txtNumber}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        underlineColorAndroid="transparent"
+                                        placeholder="Nhập phần trăm giảm nếu có ( 1 - 99 )"
+                                        placeholderTextColor="#888"
+                                        keyboardType="numeric"
+                                        multiline={true}
+                                        value={value}
+                                    />
+                                )}
+                                name="commission"
+                                defaultValue={commission_rate.commission_rate.toString()}
+                            />
+                            {errorCommission.commission && <Text style={styles.txtError}>* Hoa hồng từ 0 - 99</Text>}
 
-                <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                    <View style={{ padding: 6 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
+                            <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                <View style={{ padding: 6 }}>
+                                    <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
 
-            <View style={{ marginHorizontal: 20, marginTop: 30 }}>
-                <Text style={{ fontSize: 18 }}>Phí giao hàng : </Text>
-                <Controller
-                    control={controlShip}
-                    rules={{
-                        required: true,
-                        min: 0,
-                        pattern: /[0-9]/g
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            style={styles.txtNumber}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            underlineColorAndroid="transparent"
-                            placeholder="Nhập phần trăm giảm nếu có ( 1 - 99 )"
-                            placeholderTextColor="#888"
-                            keyboardType="numeric"
-                            multiline={true}
-                            value={value}
-                        />
-                    )}
-                    name="ship_price"
-                    defaultValue={ship_price.toString()}
-                />
-                {errorShip.ship_price && <Text style={styles.txtError}>* Phí giao hàng phai có</Text>}
+                        <View style={{ marginHorizontal: 20, marginTop: 30 }}>
+                            <Text style={{ fontSize: 18 }}>Phí giao hàng : </Text>
+                            <Controller
+                                control={controlShip}
+                                rules={{
+                                    required: true,
+                                    min: 0,
+                                    pattern: /[0-9]/g
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={styles.txtNumber}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        underlineColorAndroid="transparent"
+                                        placeholder="Nhập phần trăm giảm nếu có ( 1 - 99 )"
+                                        placeholderTextColor="#888"
+                                        keyboardType="numeric"
+                                        multiline={true}
+                                        value={value}
+                                    />
+                                )}
+                                name="ship_price"
+                                defaultValue={ship_price.ship_price.toString()}
+                            />
+                            {errorShip.ship_price && <Text style={styles.txtError}>* Phí giao hàng phai có</Text>}
 
-                <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                    <View style={{ padding: 6 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
+                            <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                <View style={{ padding: 6 }}>
+                                    <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+            }
         </View>
     )
 }
