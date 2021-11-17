@@ -29,7 +29,9 @@ export default function Home() {
         <View style={styles.container}>
             {
                 isLoading ?
-                    <View></View>
+                    <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+                        <Image source={require('../../images/loader.gif')} />
+                    </View>
                     :
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <HeaderBar />
