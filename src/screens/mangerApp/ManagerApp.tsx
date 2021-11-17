@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderTitle from '../../components/HeaderTitle';
 import { Controller, useForm } from 'react-hook-form';
@@ -14,6 +14,8 @@ export default function ManagerApp(props: any) {
     const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
     const { commission_rate, ship_price }: { commission_rate: CommissionModel, ship_price: ShipModel } = adminSate;
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoadCommission, setIsCommission] = useState<boolean>(false);
+    const [isLoadShip,setIsLoadShip] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,16 +26,18 @@ export default function ManagerApp(props: any) {
     useEffect(() => {
         if (commission_rate && ship_price && Object.keys(commission_rate).length && Object.keys(ship_price).length) {
             setIsLoading(false);
+            setIsLoadShip(false);
+            setIsCommission(false);
         }
     }, [adminSate])
 
     const _updateCommission = (data: any) => {
-        setIsLoading(true);
+        setIsCommission(true);
         dispatch(updateCommission(data.commission, commission_rate.last_update));
     }
 
     const _updateShip = (data: any) => {
-        setIsLoading(true);
+        setIsLoadShip(true);
         dispatch(updateShip(data.ship_price, ship_price.last_update));
     }
 
@@ -104,11 +108,18 @@ export default function ManagerApp(props: any) {
                             />
                             {errorCommission.commission && <Text style={styles.txtError}>* Hoa hồng từ 0 - 99</Text>}
 
-                            <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                                <View style={{ padding: 6 }}>
-                                    <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                            {
+                                isLoadCommission ? 
+                                <View style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                    <ActivityIndicator size="large" color="#fff" />
                                 </View>
-                            </TouchableOpacity>
+                                :
+                                <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                    <View style={{ padding: 6 }}>
+                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            }
                         </View>
 
                         <View style={{ marginHorizontal: 20, marginTop: 30 }}>
@@ -138,11 +149,19 @@ export default function ManagerApp(props: any) {
                             />
                             {errorShip.ship_price && <Text style={styles.txtError}>* Phí giao hàng phai có</Text>}
 
-                            <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                                <View style={{ padding: 6 }}>
-                                    <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                            {
+                                isLoadShip ?
+                                <View style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20}}>
+                                    <ActivityIndicator size="large" color="#fff" />
                                 </View>
-                            </TouchableOpacity>
+                                :
+                                <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                    <View style={{ padding: 6 }}>
+                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            }
+                            
                         </View>
                     </>
             }

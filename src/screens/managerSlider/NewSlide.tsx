@@ -74,7 +74,7 @@ export default function NewSlide(props: any) {
                                 multiline={true}
                                 value={value}
                                 maxLength={15}
-                            />
+                            /> 
                         )}
                         name="slider_title"
                         defaultValue=""
