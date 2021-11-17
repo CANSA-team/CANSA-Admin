@@ -10,6 +10,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
+import ManagerSlider from './../screens/managerSlider/ManagerSlider';
+import NewSlide from '../screens/managerSlider/NewSlide';
+import EditSlide from '../screens/managerSlider/EditSlide';
 
 
 const DIMENS = {
@@ -24,6 +27,9 @@ const switchNavigator = createSwitchNavigator({
                 CategoryList,
                 ManagerApp,
                 ManagerReport,
+                ManagerSlider,
+                NewSlide,
+                EditSlide,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

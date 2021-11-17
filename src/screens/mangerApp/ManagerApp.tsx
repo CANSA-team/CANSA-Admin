@@ -107,7 +107,7 @@ export default function ManagerApp(props:any) {
                 {errorShip.ship_price && <Text style={styles.txtError}>* Phí giao hàng phai có</Text>}
 
                 <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{backgroundColor:COLORS.primary,borderRadius:5,marginTop:20}}>
-                    <View style={{padding:6}}>
+                    <View style={{padding:8}}>
                         <Text style={{textAlign:'center',fontSize:18,color:'#fff'}}>Gửi</Text>
                     </View>
                 </TouchableOpacity>
