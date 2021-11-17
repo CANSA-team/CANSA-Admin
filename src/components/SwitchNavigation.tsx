@@ -11,7 +11,7 @@ import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
 import ManagerShop from '../screens/managerShop/ManagerShop';
-
+import ManagerRevenue from '../screens/managerRevenue/ManagerRevenue';
 
 
 const DIMENS = {
@@ -27,6 +27,7 @@ const switchNavigator = createSwitchNavigator({
                 ManagerApp,
                 ManagerReport,
                 ManagerShop,
+                ManagerRevenue,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
