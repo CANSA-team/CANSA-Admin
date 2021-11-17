@@ -54,12 +54,11 @@ export default function Home() {
                             <Menu onTab={() => navigate('CategoryList')} icon="appstore-o" title="Quản lý danh mục" description="Quản lý các danh mục của app tại đây" />
                             <Menu onTab={() => navigate('ManagerSlider')} icon="picture" title="Quản lý slide" description="Quản lý slider của app" />
                             <Menu onTab={() => navigate('ManagerShop')} icon="isv" title="Quản lý các shop" description="Quản lý những người bán hàng" />
-                            <Menu icon="team" title="Quản lý người dùng" description="Quản lý những người người dùng app" />
+                            <Menu onTab={() => navigate('ManagerUser')} icon="team" title="Quản lý người dùng" description="Quản lý những người người dùng app" />
                             <Menu icon="notification" title="Thông báo" description="Thông báo tới các shop" />
                             <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
                             <Menu onTab={() => navigate('ManagerRevenue')} icon="warning" title="Quản lý doanh thu" description="Quản lý doanh thu của app" />
                         </View>
-
                     </ScrollView>
             }
         </View>
