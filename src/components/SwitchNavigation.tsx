@@ -10,9 +10,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
-import ManagerShop from '../screens/managerShop/ManagerShop';
+import ManagerSlider from '../screens/managerSlider/ManagerSlider';
+import NewSlide from '../screens/managerSlider/NewSlide';
+import EditSlide from '../screens/managerSlider/EditSlide';
 import ManagerRevenue from '../screens/managerRevenue/ManagerRevenue';
 import ShopDetail from '../screens/managerShop/ShopDetail';
+import ManagerShop from '../screens/managerShop/ManagerShop';
+import ManagerUser from '../screens/managerUser/ManagerUser';
+
 
 const DIMENS = {
     iconSize: 30,
@@ -27,8 +32,12 @@ const switchNavigator = createSwitchNavigator({
                 ManagerApp,
                 ManagerReport,
                 ManagerShop,
+                ManagerSlider,
+                NewSlide,
+                EditSlide,
                 ManagerRevenue,
                 ShopDetail,
+                ManagerUser,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
