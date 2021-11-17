@@ -14,6 +14,8 @@ import ManagerSlider from './../screens/managerSlider/ManagerSlider';
 import NewSlide from '../screens/managerSlider/NewSlide';
 import EditSlide from '../screens/managerSlider/EditSlide';
 import ManagerRevenue from '../screens/managerRevenue/ManagerRevenue';
+import ShopDetail from '../screens/managerShop/ShopDetail';
+import ManagerShop from '../screens/managerShop/ManagerShop';
 
 const DIMENS = {
     iconSize: 30,
@@ -32,6 +34,7 @@ const switchNavigator = createSwitchNavigator({
                 NewSlide,
                 EditSlide,
                 ManagerRevenue,
+                ShopDetail,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
