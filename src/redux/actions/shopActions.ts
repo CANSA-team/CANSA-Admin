@@ -65,7 +65,7 @@ export const getShopList = (page: number = 1) => {
             } else {
                 // save our location in local storage
                 dispatch({
-                    type: ShopActionType.GET_SHOP_INFO,
+                    type: ShopActionType.GET_SHOP_LIST,
                     payload: response.data.data
                 })
             }
