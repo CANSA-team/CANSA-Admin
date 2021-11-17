@@ -12,7 +12,7 @@ import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
 import ManagerShop from '../screens/managerShop/ManagerShop';
 import ManagerRevenue from '../screens/managerRevenue/ManagerRevenue';
-
+import ShopDetail from '../screens/managerShop/ShopDetail';
 
 const DIMENS = {
     iconSize: 30,
@@ -28,6 +28,7 @@ const switchNavigator = createSwitchNavigator({
                 ManagerReport,
                 ManagerShop,
                 ManagerRevenue,
+                ShopDetail,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
