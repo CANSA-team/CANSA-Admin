@@ -11,8 +11,9 @@ import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
 import ManagerShop from '../screens/managerShop/ManagerShop';
-
-
+import ManagerSlider from './../screens/managerSlider/ManagerSlider';
+import NewSlide from '../screens/managerSlider/NewSlide';
+import EditSlide from '../screens/managerSlider/EditSlide';
 
 const DIMENS = {
     iconSize: 30,
@@ -27,6 +28,9 @@ const switchNavigator = createSwitchNavigator({
                 ManagerApp,
                 ManagerReport,
                 ManagerShop,
+                ManagerSlider,
+                NewSlide,
+                EditSlide,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
