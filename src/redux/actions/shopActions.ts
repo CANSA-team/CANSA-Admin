@@ -1,4 +1,8 @@
 import { Dispatch } from "redux";
+<<<<<<< HEAD
+=======
+import { ShopModel } from "../models";
+>>>>>>> fffbe8a (Viet redux cho ShopAction)
 import axios from 'axios';
 import { ShopActionType } from "../action-types";
 import { cansa } from "../../consts/Selector";
@@ -64,7 +68,11 @@ export const getShopList = (page: number = 1) => {
             } else {
                 // save our location in local storage
                 dispatch({
+<<<<<<< HEAD
                     type: ShopActionType.GET_SHOP_LIST,
+=======
+                    type: ShopActionType.GET_SHOP_INFO,
+>>>>>>> fffbe8a (Viet redux cho ShopAction)
                     payload: response.data.data
                 })
             }
