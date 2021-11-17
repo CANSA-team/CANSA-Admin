@@ -102,7 +102,7 @@ export const getRevenue = () => {
 export const updateCommission = (commission_rate: number, last_update: number) => {
     return async (dispatch: Dispatch<AdminActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/api/commission/update/${commission_rate}/${last_update}/:key`)
+            const response = await axios.get<any>(`${cansa[1]}/api/commission/update/${commission_rate}/${last_update}/e4611a028c71342a5b083d2cbf59c494`)
             if (!response) {
                 dispatch({
                     type: AdminActionType.ON_ADMIN_ERROR,
@@ -156,7 +156,7 @@ export const getCommission = () => {
 export const updateShip = (ship_price: number, last_update: number) => {
     return async (dispatch: Dispatch<AdminActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/api/ship/update/${ship_price}/${last_update}/:key`)
+            const response = await axios.get<any>(`${cansa[1]}/api/ship/update/${ship_price}/${last_update}/e4611a028c71342a5b083d2cbf59c494`)
             if (!response) {
                 dispatch({
                     type: AdminActionType.ON_ADMIN_ERROR,

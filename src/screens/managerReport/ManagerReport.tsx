@@ -1,46 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Image } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-
-const complantList = [
-    {
-        complaint_id: 28,
-        complaint_content: "d sadsadsadas dsa dsasdasda asdasd",
-        product_id: 1,
-        shop_id: 1,
-        product_avatar: "https://103.207.38.200:333/api/image/photo/1/e4611a028c71342a5b083d2cbf59c494",
-        product_price: 10900,
-        product_title: "Quần lót nữ đúc su thun lạnh cạp ép không viền cao cấp QL16",
-        shop_info: {
-            shop_id: 1,
-            shop_name: "Cansa-shop",
-            shop_description: "shop này chuyên bán cần sa",
-            shop_owner: 1,
-            shop_avatar: "https://103.207.38.200:333/api/image/photo/1/e4611a028c71342a5b083d2cbf59c494",
-        }
-    },
-    {
-        complaint_id: 26,
-        complaint_content: "vbbbbdfdsfsdf sd fdsfdsfdsfdsfdsfsd fsd d s fdsfd ssdff sdsdf sdf sdf sdsd ",
-        product_id: 1,
-        shop_id: 1,
-        product_avatar: "https://103.207.38.200:333/api/image/photo/1/e4611a028c71342a5b083d2cbf59c494",
-        product_price: 10900,
-        product_title: "Quần lót nữ đúc su thun lạnh cạp ép không viền cao cấp QL16",
-        shop_info: {
-            shop_id: 1,
-            shop_name: "Cansa-shop",
-            shop_description: "shop này chuyên bán cần sa",
-            shop_owner: 1,
-            shop_avatar: "https://103.207.38.200:333/api/image/photo/1/e4611a028c71342a5b083d2cbf59c494",
-        }
-    }
-]
+import { AdminState, ComplaintModel, getComplaint, State } from '../../redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function ManagerReport(props: any) {
     const { navigation } = props;
+    const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
+    const { complantList }: { complantList: ComplaintModel[] } = adminSate;
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getComplaint());
+    }, [])
+
+    useEffect(() => {
+        if (complantList?.length) {
+            setIsLoading(false);
+        }
+    }, [complantList])
 
     return (
         <View style={styles.container}>
@@ -50,35 +30,41 @@ export default function ManagerReport(props: any) {
                     <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
                 </TouchableOpacity>
             </View>
-
-            <ScrollView>
-                {complantList.length ?
-                    complantList.map((item: any, index: number) =>
-                        <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
-                            <View style={[styles.containerCenter, { marginTop: 10 }]}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.shop_info.shop_name}</Text>
-                            </View>
-                            <View style={[styles.containerCenter, { marginTop: 20, marginBottom: 5 }]}>
-                                <Image source={{ uri: item.product_avatar }} style={{ width: 80, height: 80 }}></Image>
-                                <View style={styles.textView}>
-                                    <View style={{ marginRight: 20 }}>
-                                        <Text style={{ fontWeight: 'bold' }} >{item.product_title}</Text>
+            {
+                isLoading ?
+                    <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+                        <Image source={require('../../images/loader.gif')} />
+                    </View>
+                    :
+                    <ScrollView>
+                        {complantList.length ?
+                            complantList.map((item: any, index: number) =>
+                                <View key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                                    <View style={[styles.containerCenter, { marginTop: 10 }]}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.shop_info.shop_name}</Text>
                                     </View>
-                                    <View style={{ marginTop: 10, marginRight: 20 }}>
-                                        <Text>{item.product_price}</Text>
+                                    <View style={[styles.containerCenter, { marginTop: 20, marginBottom: 5 }]}>
+                                        <Image source={{ uri: item.product_avatar }} style={{ width: 80, height: 80 }}></Image>
+                                        <View style={styles.textView}>
+                                            <View style={{ marginRight: 20 }}>
+                                                <Text style={{ fontWeight: 'bold' }} >{item.product_title}</Text>
+                                            </View>
+                                            <View style={{ marginTop: 10, marginRight: 20 }}>
+                                                <Text>{item.product_price}</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={[styles.containerCenter, { marginTop: 10 }]}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Nội dung báo cáo</Text>
+                                    </View>
+                                    <View style={[styles.containerCenter, { marginTop: 10, marginBottom: 10 }]}>
+                                        <Text>{item.complaint_content}</Text>
                                     </View>
                                 </View>
-                            </View>
-                            <View style={[styles.containerCenter, { marginTop: 10 }]}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Nội dung báo cáo</Text>
-                            </View>
-                            <View style={[styles.containerCenter, { marginTop: 10, marginBottom: 10 }]}>
-                                <Text>{item.complaint_content}</Text>
-                            </View>
-                        </View>
-                    ) : <View></View>}
+                            ) : <View></View>}
 
-            </ScrollView>
+                    </ScrollView>
+            }
         </View>
     )
 }
