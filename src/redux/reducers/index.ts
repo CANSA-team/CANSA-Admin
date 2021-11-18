@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
 import adminReducer from './adminReducer';
 import shopReducer from './shopReducer';
+import sliderReducer from './sliderReducer';
+import productReducer from './productReducer';
 
 const rootReducer = combineReducers({
     adminReducer,
-    shopReducer
+    shopReducer,
+    sliderReducer,
+    productReducer,
 });
 
 export default rootReducer;

@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { SliderModel } from "../models";
 import axios from 'axios';
 import { SliderActionType } from "../action-types";
 import { cansa } from "../../consts/Selector";
