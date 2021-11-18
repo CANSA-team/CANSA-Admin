@@ -11,7 +11,11 @@ import CategoryList from '../screens/managerCategory/CategoryList';
 import ManagerApp from '../screens/mangerApp/ManagerApp';
 import ManagerReport from '../screens/managerReport/ManagerReport';
 import ManagerShop from '../screens/managerShop/ManagerShop';
-
+import Login from '../screens/Auth/Login';
+import Register from '../screens/Auth/Register';
+import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
+import OTPscreen from '../screens/Auth/OTPscreen';
+import ChangePassword from '../screens/Auth/ChangePassword';
 
 
 const DIMENS = {
@@ -19,6 +23,19 @@ const DIMENS = {
     fontNameCategory: 15
 }
 const switchNavigator = createSwitchNavigator({
+    loginStack: {
+        screen: createStackNavigator({
+            Login,
+            OTPscreen,
+            EmailOTPscreen,
+            ChangePassword,
+            Register,
+        }, {
+            defaultNavigationOptions: {
+                headerShown: false
+            }
+        })
+    },
     homeStack: createBottomTabNavigator({
         home: {
             screen: createStackNavigator({
