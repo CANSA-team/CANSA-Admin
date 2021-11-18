@@ -4,7 +4,7 @@ import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SlugStrTitle } from '../../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { getShopList, ShopModel, ShopState, State } from '../../redux';
+import { getShopList, ShopModel, ShopState, State, updateStatusShop } from '../../redux';
 import { useNavigation } from '../../utils/useNavigation';
 
 export default function ManagerShop(props: any) {
@@ -39,13 +39,13 @@ export default function ManagerShop(props: any) {
             contentSize.height - paddingToBottom;
     };
 
-    const isStatus = (status: number) => {
+    const isStatus = (status: number, shop_id: number) => {
         const messenger = status ? "Xác nhận mở khoá shop?" : "Xác nhận khoá shop?"
         Alert.alert(
             "Thông báo!",
             messenger,
             [
-                { text: "Xác nhận", onPress: () => console.log(status) },
+                { text: "Xác nhận", onPress: () => dispatch(updateStatusShop(status, shop_id, page)) },
                 { text: "Huỷ" }
             ]
         );
@@ -92,11 +92,11 @@ export default function ManagerShop(props: any) {
 
                                             <Text style={{ marginTop: 10 }}>
                                                 {item.status ?
-                                                    <TouchableOpacity onPress={() => isStatus(0)}>
+                                                    <TouchableOpacity onPress={() => isStatus(0, item.shop_id)}>
                                                         <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Khoá shop</Text>
                                                     </TouchableOpacity>
                                                     :
-                                                    <TouchableOpacity onPress={() => isStatus(1)}>
+                                                    <TouchableOpacity onPress={() => isStatus(1, item.shop_id)}>
                                                         <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Mở khoá shop</Text>
                                                     </TouchableOpacity>
                                                 }

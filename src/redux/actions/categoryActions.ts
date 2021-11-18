@@ -124,7 +124,7 @@ export const updateCategory = (category_image: number, category_name: string, ca
 export const deleteCategory = (category_id: number) => {
     return async (dispatch: Dispatch<CategoryActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/remove/${category_id}/e4611a028c71342a5b083d2cbf59c494`)
+            const response = await axios.get<any>(`${cansa[1]}/api/category/remove/${category_id}/e4611a028c71342a5b083d2cbf59c494`)
             if (!response) {
                 dispatch({
                     type: CategoryActionType.ON_CATEGORY_ERROR,

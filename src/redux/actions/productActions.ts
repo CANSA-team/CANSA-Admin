@@ -80,10 +80,10 @@ export const getProductsShop = (shop_id: number, page: number = 1, option: numbe
     }
 }
 
-export const updateStatusProduct = (product_id: number, status: number) => {
+export const updateStatusProduct = (product_id: number, status: number, shop_id: number, page: number = 1) => {
     return async (dispatch: Dispatch<ProductActions>) => {
         try {
-            const response = await axios.get<any>(`${cansa[1]}/api/product//status_id/${status}/${product_id}/e4611a028c71342a5b083d2cbf59c494`)
+            const response = await axios.get<any>(`${cansa[1]}/api/product/status_id/${status}/${product_id}/${shop_id}/${page}/e4611a028c71342a5b083d2cbf59c494`)
             if (!response) {
                 dispatch({
                     type: ProductActionType.ON_PRODUCT_ERROR,
@@ -93,7 +93,7 @@ export const updateStatusProduct = (product_id: number, status: number) => {
                 // save our location in local storage
                 dispatch({
                     type: ProductActionType.UPDATE_PRODUCT_STATUS,
-                    payload: response.data
+                    payload: response.data.data
                 })
             }
 

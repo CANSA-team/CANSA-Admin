@@ -8,9 +8,10 @@ const WIDTH = Dimensions.get('window').width;
 
 interface ProductProps {
     productInfo: ProductModel;
+    onTap: Function;
 }
 export default function Product(props: ProductProps) {
-    const { productInfo }: ProductProps = props;
+    const { productInfo, onTap }: ProductProps = props;
     const swipeableRef = useRef<any>(null);
 
     const closeSwipeable = () => {
@@ -23,7 +24,7 @@ export default function Product(props: ProductProps) {
             "Thông báo!",
             messenger,
             [
-                { text: "Xác nhận", onPress: () => console.log(status) },
+                { text: "Xác nhận", onPress: () => onTap(productInfo.product_id, status) },
                 { text: "Huỷ" }
             ]
         );
@@ -33,7 +34,7 @@ export default function Product(props: ProductProps) {
         return (
             <>
                 {productInfo.status ?
-                    <TouchableOpacity onPress={() => isStatus(0)} style={{ width: 80, height: 110, backgroundColor: '#007bff', justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => isStatus(0)} style={{ width: 80, height: 110, backgroundColor: '#E63538', justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 18 }}>Khoá</Text>
                     </TouchableOpacity>
                     :

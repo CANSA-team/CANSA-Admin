@@ -8,7 +8,7 @@ const initialState: OrderState = {
     error: undefined
 }
 
-const productReducer = (state: OrderState = initialState, action: OrderActions) => {
+const orderReducer = (state: OrderState = initialState, action: OrderActions) => {
     switch (action.type) {
         case OrderActionType.GET_ALL_ORDER:
         case OrderActionType.UPDATE_STATUS_ORDER_LIST:
@@ -32,4 +32,4 @@ const productReducer = (state: OrderState = initialState, action: OrderActions) 
     }
 }
 
-export default productReducer;
+export default orderReducer;
