@@ -18,6 +18,10 @@ import ShopDetail from '../screens/managerShop/ShopDetail';
 import ManagerShop from '../screens/managerShop/ManagerShop';
 import ManagerUser from '../screens/managerUser/ManagerUser';
 import NewCategory from '../screens/managerCategory/NewCategory';
+import EditCategory from '../screens/managerCategory/EditCategory';
+import CategorySubList from '../screens/managerCategory/CategorySubList';
+import Ordered from '../screens/managerOrder/Ordered';
+import OderDetail from '../screens/managerOrder/OderDetail';
 
 const DIMENS = {
     iconSize: 30,
@@ -29,6 +33,9 @@ const switchNavigator = createSwitchNavigator({
             screen: createStackNavigator({
                 Home,
                 CategoryList,
+                NewCategory,
+                EditCategory,
+                CategorySubList,
                 ManagerApp,
                 ManagerReport,
                 ManagerShop,
@@ -38,7 +45,8 @@ const switchNavigator = createSwitchNavigator({
                 ManagerRevenue,
                 ShopDetail,
                 ManagerUser,
-                NewCategory,
+                Ordered,
+                OderDetail,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

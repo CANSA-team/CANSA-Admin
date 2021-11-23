@@ -6,7 +6,7 @@ import HeaderTitle from '../../components/HeaderTitle';
 import COLORS from '../../consts/Colors';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
-import { CategoryModel, CategoryState, createCategory, getCategory, ImageId, State } from '../../redux';
+import { CategoryModel, CategoryState, createCategory, ImageId, State } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveImage } from '../../consts/Selector';
 const categories = [
@@ -465,8 +465,10 @@ interface CatRender {
   label: string,
   value: number | null
 }
-export default function NewCategory(props: any) {
+export default function EditCategory(props: any) {
   const { navigation } = props;
+  const { getParam } = navigation;
+  const category:CategoryModel = getParam('category');
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [avatarError, setAvatarError] = useState<boolean>(false);
   const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494');
@@ -477,9 +479,10 @@ export default function NewCategory(props: any) {
   const { categories }: { categories: CategoryModel[] } = categoryState;
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    getCatRender()
+    getCatRender();
+    setValueCategory(category.category_category);
+    setAvatar(category.category_image);
   }, [])
 
   const getCatRender = () => {
@@ -498,7 +501,7 @@ export default function NewCategory(props: any) {
   const onSubmitForm = (data: any) => {
     Alert.alert(
       "Thông báo!",
-      'Xác nhận thêm slide',
+      'Xác nhận sửa ',
       [
         { text: "Xác nhận", onPress: () => onSubmitSuccess(data) },
         { text: "Huỷ" }
@@ -507,24 +510,25 @@ export default function NewCategory(props: any) {
   }
 
   const onSubmitSuccess = (data: any) => {
-    setisLoading(true);
-    let saveAvt: Promise<void>
-    let _avatar: ImageId = { id: 0 };
+      console.log(valueCategory,data)
+    //setisLoading(true);
+    // let saveAvt: Promise<void>
+    // let _avatar: ImageId = { id: 0 };
 
-    if (avatar != 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
-      const avatar_img = {
-        uri: avatar,
-        name: 'userProfile.jpg',
-        type: 'image/jpg'
-      }
-      saveAvt = saveImage(avatar_img, _avatar);
-      Promise.all([saveAvt]).then(() => {
-        const category_category = valueCategory ? valueCategory : null;
-        dispatch(createCategory(_avatar.id, data.slider_title, category_category))
-        setisLoading(false);
-        navigation.goBack();
-      })
-    }
+    // if (avatar != 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
+    //   const avatar_img = {
+    //     uri: avatar,
+    //     name: 'userProfile.jpg',
+    //     type: 'image/jpg'
+    //   }
+    //   saveAvt = saveImage(avatar_img, _avatar);
+    //   Promise.all([saveAvt]).then(() => {
+    //     const category_category = valueCategory ? valueCategory : null;
+    //     dispatch(createCategory(_avatar.id, data.slider_title, category_category))
+    //     setisLoading(false);
+    //     navigation.goBack();
+    //   })
+    // }
   }
 
 
@@ -581,24 +585,29 @@ export default function NewCategory(props: any) {
               />
             )}
             name="slider_title"
-            defaultValue=""
+            defaultValue={category.category_name}
           />
         </View>
         {errors.slider_title && <Text style={styles.txtError}>* Tên danh mục phải có và dưới 36 ký tự</Text>}
 
-        <Text style={[styles.txtTitle, { marginTop: 20 }]}>Chọn danh mục cha :</Text>
-        <View style={styles.viewPicker}>
-          {
-            catagoryRender.length !== 0 &&
-            <RNPickerSelect
-              placeholder={{ label: "Chọn danh mục cha nếu có ", value: null }}
-              style={{ ...pickerSelectStyles, placeholder: { color: '#acabab' } }}
-              onValueChange={(data: any) => setValueCategory(data)}
-              items={catagoryRender}
-            />
-          }
-        </View>
-
+        {
+            category.category_category &&
+            <>
+                <Text style={[styles.txtTitle, { marginTop: 20 }]}>Chọn danh mục cha :</Text>
+                <View style={styles.viewPicker}>
+                {
+                    catagoryRender.length !== 0 &&
+                    <RNPickerSelect
+                    placeholder={{ }}
+                    value={valueCategory}
+                    style={{ ...pickerSelectStyles, placeholder: { color: '#333' } }}
+                    onValueChange={(data: any) => setValueCategory(data)}
+                    items={catagoryRender}
+                    />
+                }
+                </View>
+            </>
+        }
 
         {
           !isLoading ?
@@ -664,13 +673,13 @@ const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 20,
     borderRadius: 30,
-    color: 'black',
+    color: '#333',
     padding: 25
   },
   inputAndroid: {
     fontSize: 20,
     borderRadius: 30,
-    color: 'black',
+    color: '#333',
     padding: 25
   },
 });

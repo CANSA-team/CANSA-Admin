@@ -106,6 +106,7 @@ export interface CategoryModel {
     category_name: string;
     last_update: number;
     status: number;
+    category_category: number | null;
     categories: any[];
 }
 

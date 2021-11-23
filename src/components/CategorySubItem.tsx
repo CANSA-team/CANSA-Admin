@@ -9,10 +9,9 @@ interface SlideProps {
     category: CategoryModel;
     onTap: Function;
     onEdit:Function;
-    onCategorySub:Function;
 }
-export default function CategoryItem(props: SlideProps) {
-    const { category, onTap, onEdit, onCategorySub } : SlideProps  = props
+export default function CategorySubItem(props: SlideProps) {
+    const { category, onTap, onEdit } : SlideProps  = props
     const swipeableRef = useRef<any>(null);
 
     const closeSwipeable = () => {
@@ -24,20 +23,6 @@ export default function CategoryItem(props: SlideProps) {
         onEdit()
     }
 
-    const swCategorySub = () => {
-        closeSwipeable();
-        onCategorySub()
-    }
-
-    const boxRenderLeft = () => {
-        return (
-            <>
-                <TouchableOpacity onPress={swCategorySub} style={{ width: 85, height: 110, backgroundColor: '#ffc106', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
-                    <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center' }}>Danh mục con</Text>
-                </TouchableOpacity>
-            </>
-        )
-    }
     const boxRenderRight = () => {
         return (
             <>
@@ -52,7 +37,7 @@ export default function CategoryItem(props: SlideProps) {
     }
 
     return (
-        <Swipeable ref={swipeableRef} friction={2} overshootLeft={false} overshootRight={false} renderLeftActions={boxRenderLeft} renderRightActions={boxRenderRight}>
+        <Swipeable ref={swipeableRef} friction={2} overshootLeft={false} overshootRight={false} renderRightActions={boxRenderRight}>
             <View style={styles.container}>
                 <View style={styles.viewImgSwipeable}>
                     <Image style={styles.imgSwipeable} source={{ uri: category.category_image }}></Image>
