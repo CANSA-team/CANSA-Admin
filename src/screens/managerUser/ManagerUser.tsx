@@ -1,10 +1,13 @@
-import React from 'react'
-import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Image, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Image, Alert, ActivityIndicator } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Pagination from "@mui/material/Pagination";
+import COLORS from '../../consts/Colors';
 
 
-const data = [
+const userList = [
     {
         user_id: 1,
         user_key: "3",
@@ -27,7 +30,7 @@ const data = [
         user_name: "2051568581664238",
         user_avatar: "454",
         last_update: 124,
-        status: 1
+        status: 0
     },
     {
         user_id: 126,
@@ -44,12 +47,25 @@ const data = [
         user_avatar: null,
         last_update: 0,
         status: 1
-    }
+    },
+    {
+        user_id: 128,
+        user_key: null,
+        user_name: "sdsdsa",
+        user_avatar: null,
+        last_update: 0,
+        status: 1
+    },
+
 ]
 
 export default function ManagerUser(props: any) {
     const { navigation } = props;
-    const isStatus = (status: number) => {
+    const [page, setPage] = useState<number>(1);
+    const [data, setData] = useState(userList);
+    const [isLoadMore, setisLoadMore] = useState(false)
+
+    const isStatus = (status: number, id: number) => {
         const messenger = status ? "Xác nhận mở khoá tài khoản?" : "Xác nhận khoá tài khoản?"
         Alert.alert(
             "Thông báo!",
@@ -60,6 +76,19 @@ export default function ManagerUser(props: any) {
             ]
         );
     }
+
+    const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
+        const paddingToBottom = 20;
+        return layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom;
+    };
+
+    useEffect(() => {
+        let test = [...data, ...userList]
+        setData(test)
+        setisLoadMore(false)
+    }, [page])
+
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Quản lí người dùng" />
@@ -69,7 +98,15 @@ export default function ManagerUser(props: any) {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView>
+            <ScrollView
+                onScroll={({ nativeEvent }) => {
+                    if (isCloseToBottom(nativeEvent)) {
+                        setPage(page + 1);
+                        setisLoadMore(true);
+                    }
+                }}
+                scrollEventThrottle={400}
+                showsVerticalScrollIndicator={false}>
                 <View style={[styles.containerCenter, { marginTop: 10 }]}>
                     <Text style={{ fontSize: 20, color: '#ABA9A9' }}>Danh sách tài khoản người dùng</Text>
                 </View>
@@ -87,20 +124,27 @@ export default function ManagerUser(props: any) {
                             </View>
                             <View style={{ marginLeft: "auto" }}>
                                 {item.status ?
-                                    <TouchableOpacity onPress={() => isStatus(0)}>
-                                        <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Khoá</Text>
+                                    <TouchableOpacity onPress={() => isStatus(0, item.user_id)}>
+                                        <Text style={{ backgroundColor: "#dc3545", color: "#fff", borderRadius: 5, padding: 3 }}>Khoá</Text>
                                     </TouchableOpacity>
                                     :
-                                    <TouchableOpacity onPress={() => isStatus(1)}>
-                                        <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Mở khoá</Text>
+                                    <TouchableOpacity onPress={() => isStatus(1, item.user_id)}>
+                                        <Text style={{ backgroundColor: COLORS.primary, color: "#fff", borderRadius: 5, padding: 3 }}>Mở khoá</Text>
                                     </TouchableOpacity>
                                 }
 
                             </View>
                         </View>
+
                     ) :
                     <View></View>}
 
+                {
+                    isLoadMore &&
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <ActivityIndicator size="large" color="#00ff00" />
+                    </View>
+                }
 
             </ScrollView>
         </View>
