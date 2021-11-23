@@ -39,7 +39,7 @@ export default function ManagerShop(props: any) {
             contentSize.height - paddingToBottom;
     };
 
-    const isStatus = (status: number) => {
+    const isStatus = (status: number, id: number) => {
         const messenger = status ? "Xác nhận mở khoá shop?" : "Xác nhận khoá shop?"
         Alert.alert(
             "Thông báo!",
@@ -92,11 +92,11 @@ export default function ManagerShop(props: any) {
 
                                             <Text style={{ marginTop: 10 }}>
                                                 {item.status ?
-                                                    <TouchableOpacity onPress={() => isStatus(0)}>
+                                                    <TouchableOpacity onPress={() => isStatus(0, item.shop_id)}>
                                                         <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Khoá shop</Text>
                                                     </TouchableOpacity>
                                                     :
-                                                    <TouchableOpacity onPress={() => isStatus(1)}>
+                                                    <TouchableOpacity onPress={() => isStatus(1, item.shop_id)}>
                                                         <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Mở khoá shop</Text>
                                                     </TouchableOpacity>
                                                 }
