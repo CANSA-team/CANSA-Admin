@@ -175,9 +175,9 @@ export interface OrderState {
     error: string | undefined;
 }
 
-export interface UserStage{
+export interface UserStage {
     check: boolean;
     userInfor?: UserModel;
     error: string | undefined;
-    dataLogin:any;
+    dataLogin: any;
 }
