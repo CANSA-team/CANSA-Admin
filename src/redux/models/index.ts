@@ -20,7 +20,6 @@ export interface ProductModel {
 export interface ProductState {
     productList: ProductModel[];
     productShop: ProductModel[];
-    update_status: ChangeStatus;
     error: string | undefined;
 }
 
@@ -99,6 +98,7 @@ export interface SliderModel {
     status: number;
     slider_title: string;
     slider_image: string;
+    last_update: number;
 }
 
 export interface SliderState {
@@ -113,6 +113,7 @@ export interface CategoryModel {
     category_name: string;
     last_update: number;
     status: number;
+    category_category: number | null;
     categories: any[];
 }
 

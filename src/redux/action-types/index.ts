@@ -52,3 +52,4 @@ export enum UserActionType{
     GET_UER_INFO = 'GET_UER_INFO',
     ON_LOGIN_ERROR = 'ON_LOGIN_ERROR'
 }
+

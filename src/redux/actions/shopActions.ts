@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { ShopModel } from "../models";
 import axios from 'axios';
 import { ShopActionType } from "../action-types";
 import { cansa } from "../../consts/Selector";

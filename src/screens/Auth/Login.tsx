@@ -38,7 +38,7 @@ export default function Login(props: any) {
   const dispatch = useDispatch();
 
   const loginBtn = () => {
-    dispatch(login('hoanganh34k@gmail.com', 'hoanganh11k'))
+    dispatch(login('hoanganh34k@gmail.com', 'Hoanganh11k'))
   }
   useEffect(() => {
     if (dataLogin !== undefined && dataLogin !== null) {

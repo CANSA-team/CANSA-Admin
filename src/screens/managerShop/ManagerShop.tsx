@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Image } from 'react-native'
+import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Image, Alert } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SlugStrTitle } from '../../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { getShopList, ShopModel, ShopState, State } from '../../redux';
+import { getShopList, ShopModel, ShopState, State, updateStatusShop } from '../../redux';
+import { useNavigation } from '../../utils/useNavigation';
 
 export default function ManagerShop(props: any) {
     const { navigation } = props;
+    const { navigate } = useNavigation();
     const shopState: ShopState = useSelector((state: State) => state.shopReducer);
     const { shopList }: { shopList: ShopModel[] } = shopState;
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -37,6 +39,18 @@ export default function ManagerShop(props: any) {
             contentSize.height - paddingToBottom;
     };
 
+    const isStatus = (status: number, shop_id: number) => {
+        const messenger = status ? "Xác nhận mở khoá shop?" : "Xác nhận khoá shop?"
+        Alert.alert(
+            "Thông báo!",
+            messenger,
+            [
+                { text: "Xác nhận", onPress: () => dispatch(updateStatusShop(status, shop_id, page)) },
+                { text: "Huỷ" }
+            ]
+        );
+    }
+
     return (
         <View style={styles.container}>
             <HeaderTitle title="Quản lí các shop" />
@@ -61,8 +75,8 @@ export default function ManagerShop(props: any) {
                     >
                         <Text style={[styles.containerCenter, { fontWeight: 'bold', fontSize: 18, marginVertical: 10 }]}>Danh sách các shop</Text>
                         {shopList?.length &&
-                            shopList.map((item: any, index: number) =>
-                                <TouchableOpacity key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
+                            shopList.map((item: ShopModel, index: number) =>
+                                <TouchableOpacity onPress={() => navigate('ShopDetail', { shop_id: item.shop_id })} key={index} style={{ backgroundColor: '#fff', marginBottom: 10 }}>
 
                                     <View style={[styles.containerCenter, { marginTop: 10, marginBottom: 10 }]}>
                                         <Image source={{ uri: item.shop_avatar }} style={{ width: 80, height: 80 }}></Image>
@@ -77,9 +91,16 @@ export default function ManagerShop(props: any) {
 
 
                                             <Text style={{ marginTop: 10 }}>
-                                                <TouchableOpacity>
-                                                    <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Khoá shop</Text>
-                                                </TouchableOpacity>
+                                                {item.status ?
+                                                    <TouchableOpacity onPress={() => isStatus(0, item.shop_id)}>
+                                                        <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Khoá shop</Text>
+                                                    </TouchableOpacity>
+                                                    :
+                                                    <TouchableOpacity onPress={() => isStatus(1, item.shop_id)}>
+                                                        <Text style={{ backgroundColor: "red", color: "#fff", borderRadius: 5, padding: 3 }}>Mở khoá shop</Text>
+                                                    </TouchableOpacity>
+                                                }
+
                                             </Text>
 
                                         </View>

@@ -5,12 +5,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '../../utils/useNavigation';
 import { CategoryModel, CategoryState, deleteCategory, getCategory, State } from '../../redux';
-import CategoryItem from '../../components/CategoryItem';
 import { useDispatch, useSelector } from 'react-redux';
+import CategorySubItem from '../../components/CategorySubItem';
 
-export default function CategoryList(props: any) {
+export default function CategorySubList(props: any) {
   const { navigation } = props;
   const { navigate } = useNavigation();
+  const { getParam } = navigation;
+  const category:CategoryModel = getParam('category');
   const [isLoading, setisLoading] = useState(true)
   const categoryState: CategoryState = useSelector((state: State) => state.categoryReducer);
   const { categories }: { categories: CategoryModel[] } = categoryState;
@@ -42,10 +44,6 @@ export default function CategoryList(props: any) {
     navigate('EditCategory',{ category })
   }
 
-  const onCategorySub = (category:CategoryModel) => {
-    navigate('CategorySubList',{ category })
-  }
-
   return (
     <View style={styles.container}>
       <HeaderTitle title="Danh mục lớn" />
@@ -61,6 +59,7 @@ export default function CategoryList(props: any) {
       {isLoading ?
         (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Image source={require('../../images/loader.gif')} />
+
         </View>)
         :
         (
@@ -69,8 +68,8 @@ export default function CategoryList(props: any) {
               scrollEventThrottle={400}
               showsVerticalScrollIndicator={false}>
               {
-                categories.map((category: CategoryModel) =>
-                  <CategoryItem key={category.category_id} onCategorySub={()=>onCategorySub(category)} onEdit={()=>onEdit(category)} category={category} onTap={removeCategory} />
+                  category.categories.map((category: CategoryModel) =>
+                  <CategorySubItem key={category.category_id} onEdit={()=>onEdit(category)} category={category} onTap={removeCategory} />
                 )
               }
 
