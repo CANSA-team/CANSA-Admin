@@ -6,19 +6,25 @@ import HeaderTitle from '../../components/HeaderTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { vnd } from '../../consts/Selector';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { OrderModel, OrderState, State } from '../../redux';
+import { AdminState, OrderModel, OrderState, ShipModel, State, updateStatusOder, updateStatusOrder, UserStage } from '../../redux';
 import OderCard from '../../components/OderCard';
+import { useNavigation } from '../../utils/useNavigation';
 
 export default function OderDetail(props: any) {
+    const { navigate } = useNavigation();
     const { navigation } = props;
     const { getParam } = navigation;
     const [_oder, setOder] = useState(getParam('oder'));
     const [check, setCheck] = useState(false)
+    const [changesStatus, setChangeStatus] = useState(false)
     const dispatch = useDispatch();
     const orderState: OrderState = useSelector((state: State) => state.orderReducer);
-    const { order }: { order: OrderModel } = orderState;
+    const { order, orderList }: { order: OrderModel, orderList: OrderModel[] } = orderState;
+    const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
+    const { ship_price }: { ship_price: ShipModel } = adminSate;
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { dataLogin }: { dataLogin: any } = userState;
     let sub_price = 0;
-    let ship = 20000;
     let total_price = 0;
 
     const changeStatusPro = (status: number, idPro: number, idOrder: number) => {
@@ -26,8 +32,19 @@ export default function OderDetail(props: any) {
             "Thông báo!",
             'Xác nhận thay đổi trạng thái ',
             [
-              { text: "Xác nhận", onPress: () => console.log(status,idPro,idOrder) },
-              { text: "Huỷ" }
+                { text: "Xác nhận", onPress: () => dispatch(updateStatusOder(idOrder, idPro, status)) },
+                { text: "Huỷ" }
+            ]
+        );
+    }
+
+    const changeStatusOrder = (status: number, idOrder: number) => {
+        Alert.alert(
+            "Thông báo!",
+            'Xác nhận thay đổi trạng thái ',
+            [
+                { text: "Xác nhận", onPress: () => { dispatch(updateStatusOrder(idOrder, status)); setChangeStatus(true); } },
+                { text: "Huỷ" }
             ]
         );
     }
@@ -37,29 +54,42 @@ export default function OderDetail(props: any) {
             setOder(order);
             setCheck(false);
         }
+        console.log(orderList?.length, changesStatus)
+        if (orderList?.length && changesStatus) {
+            setChangeStatus(false);
+            navigate('Ordered')
+        }
     }, [orderState])
 
     if (_oder) for (const item of _oder.product_oder) {
-        sub_price += (item.product.product_price * (100 - item.product.product_sale) / 100) * item.product_quantity;
+        if (item.status) {
+            sub_price += (item.product.product_price * (100 - item.product.product_sale) / 100) * item.product_quantity;
+        }
     }
 
-    total_price = sub_price + ship;
+    total_price = sub_price + ship_price.ship_price;
 
     const oderStatus = [
-        <View style={styles.statusDes}>
-            <Text style={styles.txtStatus}>Đã hủy</Text>
-        </View>,
-        <View style={styles.statusPending}>
-            <Text style={styles.txtStatus}>Đang xử lí</Text>
-        </View>,
-         <View style={styles.statusPending}>
-            <Text style={styles.txtStatus}>Đang xử lí</Text>
-        </View>,
-        <View style={styles.statusPending}>
-            <Text style={styles.txtStatus}>Đang xử lí</Text>
-        </View>,
+        <></>,
+        <TouchableOpacity style={styles.statusPending} onPress={() => changeStatusOrder(2, _oder.oder_id)}>
+            <Text style={styles.txtStatus}>Nhận hàng</Text>
+        </TouchableOpacity>,
+        dataLogin.permission_id === 3 ?
+            <TouchableOpacity style={styles.statusPending} onPress={() => changeStatusOrder(3, _oder.oder_id)}>
+                <Text style={styles.txtStatus}>Giao ship</Text>
+            </TouchableOpacity> :
+            <View style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Đã nhận</Text>
+            </View>,
+        dataLogin.permission_id === 3 ?
+            <View style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Đã giao ship</Text>
+            </View> :
+            <TouchableOpacity onPress={() => changeStatusOrder(4, _oder.oder_id)} style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Giao hàng</Text>
+            </TouchableOpacity>,
         <View style={styles.statusAccept}>
-            <Text style={styles.txtStatus}>Đã nhận</Text>
+            <Text style={styles.txtStatus}>Đã giao hàng</Text>
         </View>
     ]
     const changeStatus = (product_id: number) => {
@@ -69,7 +99,7 @@ export default function OderDetail(props: any) {
             "Hủy đơn hàng ?",
             [
                 { text: "Cancel" },
-                { text: "Yes", onPress: () =>  console.log('asas')},
+                { text: "Yes", onPress: () => console.log('asas') },
             ]
         );
     }
@@ -103,7 +133,7 @@ export default function OderDetail(props: any) {
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: 'space-between', borderBottomColor: 'gray', borderBottomWidth: 1, paddingBottom: 5 }}>
                             <Text style={[styles.priceTitle, { fontSize: 22 }]}>Ship total :</Text>
-                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>{vnd(ship)}đ</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>{vnd(ship_price.ship_price)}đ</Text>
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                             <Text style={[styles.priceTitle, { fontSize: 24 }]}>Total Price :</Text>
@@ -174,7 +204,7 @@ const styles = StyleSheet.create({
     },
     statusAccept: {
         marginTop: 8,
-        backgroundColor:'#28a745',
+        backgroundColor: '#28a745',
         padding: 8,
         borderRadius: 10,
         margin: 10

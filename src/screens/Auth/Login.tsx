@@ -38,10 +38,12 @@ export default function Login(props: any) {
   const dispatch = useDispatch();
 
   const loginBtn = () => {
+    // dispatch(login('natswarchuan@gmail.com', 'Chuan1999'))
     dispatch(login('hoanganh34k@gmail.com', 'Hoanganh11k'))
   }
 
   useEffect(() => {
+    console.log(dataLogin)
     if (dataLogin !== undefined && dataLogin !== null) {
       if (dataLogin.permission_id === 3 || dataLogin.permission_id === 4) {
         navigate('homeStack')

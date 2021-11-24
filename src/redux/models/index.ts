@@ -114,6 +114,7 @@ export interface CategoryModel {
     last_update: number;
     status: number;
     category_category: number | null;
+    category_image_id: number;
     categories: any[];
 }
 

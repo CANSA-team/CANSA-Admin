@@ -1,33 +1,45 @@
 import moment from 'moment';
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { useSelector } from 'react-redux';
 import COLORS from '../consts/Colors';
+import { State } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 import { SlugStr } from './../consts/Selector';
-import { OrderModel } from './../redux/models/index';
+import { OrderModel, UserStage } from './../redux/models/index';
 
-interface ProductOrdereProps{
-    oder:OrderModel;
-    changeStatusOrder:Function
+interface ProductOrdereProps {
+    oder: OrderModel;
+    changeStatusOrder: Function
 }
 
 export default function ProductOrdered(props: any) {
-    const { oder, changeStatusOrder}:ProductOrdereProps= props;
+    const { oder, changeStatusOrder }: ProductOrdereProps = props;
     const { navigate } = useNavigation();
-   
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { dataLogin }: { dataLogin: any } = userState;
+
     const OderStatus = [
         <>
-            
+
         </>,
-        <TouchableOpacity onPress={()=>changeStatusOrder(2,oder.oder_id)} style={styles.statusPending}>
+        <TouchableOpacity onPress={() => changeStatusOrder(2, oder.oder_id)} style={styles.statusPending}>
             <Text style={styles.txtStatus}>Nhận hàng</Text>
         </TouchableOpacity>,
-        <View style={styles.statusPending}>
-            <Text style={styles.txtStatus}>Đã nhận</Text>
-        </View>,
-        <TouchableOpacity onPress={()=>changeStatusOrder(4,oder.oder_id)} style={styles.statusPending}>
-            <Text style={styles.txtStatus}>Giao hàng</Text>
-        </TouchableOpacity>,
+        dataLogin.permission_id === 3 ?
+            <TouchableOpacity onPress={() => changeStatusOrder(3, oder.oder_id)} style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Giao ship</Text>
+            </TouchableOpacity> :
+            <View style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Đã nhận</Text>
+            </View>,
+        dataLogin.permission_id === 3 ?
+            <View style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Đã giao ship</Text>
+            </View> :
+            <TouchableOpacity onPress={() => changeStatusOrder(4, oder.oder_id)} style={styles.statusPending}>
+                <Text style={styles.txtStatus}>Giao hàng</Text>
+            </TouchableOpacity>,
         <View style={styles.statusAccept}>
             <Text style={styles.txtStatus}>Đã giao hàng</Text>
         </View>
@@ -86,7 +98,7 @@ const styles = StyleSheet.create({
     },
     productName: {
         fontSize: 20,
-        fontWeight:'700',
+        fontWeight: '700',
         color: '#333'
     },
     statusPending: {
