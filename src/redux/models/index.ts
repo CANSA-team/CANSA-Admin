@@ -50,7 +50,14 @@ export interface ShopModel {
     status: number;
     shop_avatar_id: number;
 }
-
+export class UserModel {
+    user_id?: number;
+    user_key?: null;
+    user_name?: string;
+    user_avatar?: string;
+    user_status?: number;
+    user_last_update?: number;
+}
 export interface ChangeStatus {
     status: string;
     data: number;
@@ -166,4 +173,11 @@ export interface OrderState {
     orderList: OrderModel[];
     order: OrderModel;
     error: string | undefined;
+}
+
+export interface UserStage{
+    check: boolean;
+    userInfor?: UserModel;
+    error: string | undefined;
+    dataLogin:any;
 }
