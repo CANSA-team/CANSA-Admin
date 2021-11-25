@@ -179,5 +179,11 @@ export interface UserStage{
     check: boolean;
     userInfor?: UserModel;
     error: string | undefined;
+<<<<<<< Updated upstream
     dataLogin:any;
+=======
+    dataLogin: any;
+    userAll:any;
+    checkEditStatus:any;
+>>>>>>> Stashed changes
 }
