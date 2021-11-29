@@ -38,27 +38,30 @@ export default function Login(props: any) {
   const dispatch = useDispatch();
 
   const loginBtn = () => {
+    // dispatch(login('natswarchuan@gmail.com', 'Chuan1999'))
     dispatch(login('hoanganh34k@gmail.com', 'Hoanganh11k'))
   }
+
   useEffect(() => {
+    console.log(dataLogin)
     if (dataLogin !== undefined && dataLogin !== null) {
-      if (dataLogin.permission_id === 3) {
-        console.log('admin')
-      } else if (dataLogin.permission_id === 4) {
-        console.log('shiper')
+      if (dataLogin.permission_id === 3 || dataLogin.permission_id === 4) {
+        navigate('homeStack')
       } else {
         setStatus('Không đủ quyền hạn')
         setCheckStatus(true)
       }
-    } else {
+    } else if (dataLogin == undefined && dataLogin == null) {
       setStatus('Không đúng mật khẩu')
     }
   }, [dataLogin])
-  useEffect(()=>{
-    if(status !== ''){
-      Alert.alert('Thông Báo',status)
+
+  useEffect(() => {
+    if (status !== '') {
+      Alert.alert('Thông Báo', status)
     }
-  },[status])
+  }, [status])
+
   const Divider = (props: any) => {
     return <View {...props}>
       <View style={styles.line}></View>

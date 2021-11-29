@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, ActivityI
 import HeaderTitle from '../../components/HeaderTitle';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOders, OrderModel, OrderState, State } from '../../redux';
+import { AdminState, getOders, OrderModel, OrderState, ShipModel, State, updateStatusOrder, UserStage } from '../../redux';
 import ProductOrdered from '../../components/ProductOrdered';
 
 export default function Ordered(props: any) {
@@ -13,6 +13,7 @@ export default function Ordered(props: any) {
     const orderState: OrderState = useSelector((state: State) => state.orderReducer);
     const [isLoadMore, setisLoadMore] = useState(false)
     const { orderList }: { orderList: OrderModel[] } = orderState;
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -34,13 +35,11 @@ export default function Ordered(props: any) {
             "Thông báo!",
             'Xác nhận thay đổi trạng thái ',
             [
-              { text: "Xác nhận", onPress: () => console.log(status,idOrder) },
-              { text: "Huỷ" }
+                { text: "Xác nhận", onPress: () => dispatch(updateStatusOrder(idOrder, status)) },
+                { text: "Huỷ" }
             ]
         );
     }
-
-   
 
     const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
         const paddingToBottom = 20;
@@ -58,38 +57,38 @@ export default function Ordered(props: any) {
             </View>
             {
                 isLoading ?
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image source={require('../../images/loader.gif')} />
-                </View>
-                :
-                <ScrollView
-                onScroll={({ nativeEvent }) => {
-                    if (isCloseToBottom(nativeEvent)) {
-                        setPage(page + 1);
-                        setisLoadMore(true);
-                    }
-                }}
-                scrollEventThrottle={400}
-                style={{ flex: 1, marginTop: 5 }} 
-                showsVerticalScrollIndicator={false}>
-                    {
-                        orderList && orderList.map((oder: OrderModel, index: number) => {
-                            if (oder.status !== 0) {
-                                return (
-                                    <View key={index}>
-                                        <ProductOrdered changeStatusOrder={changeStatusOrder} oder={oder} />
-                                    </View>
-                                )
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image source={require('../../images/loader.gif')} />
+                    </View>
+                    :
+                    <ScrollView
+                        onScroll={({ nativeEvent }) => {
+                            if (isCloseToBottom(nativeEvent)) {
+                                setPage(page + 1);
+                                setisLoadMore(true);
                             }
-                        })
-                    }
-                    {
-                        isLoadMore &&
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <ActivityIndicator size="large" color="#00ff00" />
-                        </View>
-                    }
-                </ScrollView>
+                        }}
+                        scrollEventThrottle={400}
+                        style={{ flex: 1, marginTop: 5 }}
+                        showsVerticalScrollIndicator={false}>
+                        {
+                            orderList && orderList.map((oder: OrderModel, index: number) => {
+                                if (oder.status !== 0) {
+                                    return (
+                                        <View key={index}>
+                                            <ProductOrdered changeStatusOrder={changeStatusOrder} oder={oder} />
+                                        </View>
+                                    )
+                                }
+                            })
+                        }
+                        {
+                            isLoadMore &&
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <ActivityIndicator size="large" color="#00ff00" />
+                            </View>
+                        }
+                    </ScrollView>
             }
         </View>
     )

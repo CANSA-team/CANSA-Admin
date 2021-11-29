@@ -66,6 +66,7 @@ export const login = (email: string, password: string) => {
                 password: password,
             }
             const response = await axios.post<any>(`${cansa[1]}/api/user/login/admin/e4611a028c71342a5b083d2cbf59c494`, data, { withCredentials: true })
+            console.log(response.data);
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,

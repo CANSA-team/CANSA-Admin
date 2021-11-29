@@ -114,6 +114,7 @@ export interface CategoryModel {
     last_update: number;
     status: number;
     category_category: number | null;
+    category_image_id: number;
     categories: any[];
 }
 
@@ -175,15 +176,11 @@ export interface OrderState {
     error: string | undefined;
 }
 
-export interface UserStage{
+export interface UserStage {
     check: boolean;
     userInfor?: UserModel;
     error: string | undefined;
-<<<<<<< Updated upstream
-    dataLogin:any;
-=======
     dataLogin: any;
     userAll:any;
     checkEditStatus:any;
->>>>>>> Stashed changes
 }

@@ -1,27 +1,29 @@
 import React from 'react'
 import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { useSelector } from 'react-redux';
 import COLORS from '../consts/Colors';
 import { SlugStr, vnd } from '../consts/Selector';
-import { ProductModel } from '../redux';
+import { ProductModel, State, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 
 export default function OderCard(props: any) {
-    const product:ProductModel = props.product;
-    const {qty,order_id,oderStatus,status,changeStatusPro} = props;
+    const product: ProductModel = props.product;
+    const { qty, order_id, oderStatus, status, changeStatusPro } = props;
     const { navigate } = useNavigation();
+
     const OderStatus = [
         <>
-            
+
         </>,
-        <TouchableOpacity onPress={()=>changeStatusPro(2,product.product_id,order_id)} style={styles.statusPending}>
+        <TouchableOpacity onPress={() => changeStatusPro(2, product.product_id, order_id)} style={styles.statusPending}>
             <Text style={styles.txtStatus}>Nhận hàng</Text>
         </TouchableOpacity>,
         <View style={styles.statusPending}>
             <Text style={styles.txtStatus}>Đã nhận</Text>
         </View>,
-        <TouchableOpacity onPress={()=>changeStatusPro(4,product.product_id,order_id)} style={styles.statusPending}>
+        <View style={styles.statusPending}>
             <Text style={styles.txtStatus}>Giao hàng</Text>
-        </TouchableOpacity>,
+        </View>,
         <View style={styles.statusAccept}>
             <Text style={styles.txtStatus}>Đã giao hàng</Text>
         </View>
@@ -29,7 +31,7 @@ export default function OderCard(props: any) {
     return (
         <View style={styles.container}>
             {
-                 OderStatus[status] 
+                OderStatus[status]
             }
             <View style={{
                 flex: 1,
@@ -43,17 +45,9 @@ export default function OderCard(props: any) {
                         <Text style={styles.productName}>{product && SlugStr(product.product_title, 22)}</Text>
                     </View>
                     <View style={styles.productPrice}>
-                        <Text style={{fontSize: 16}}>Số lượng : {qty}</Text>
+                        <Text style={{ fontSize: 16 }}>Số lượng : {qty}</Text>
                         <Text style={{ color: '#222', fontSize: 20 }}>{vnd((product.product_price * (100 - product.product_sale) / 100) * qty)}đ</Text>
                     </View>
-                    {
-                        status === 2 &&
-                        <TouchableOpacity onPress={() => {
-                            navigate('Complaint', { id: product.product_id });
-                        }}>
-                            <Text style={styles.btnReport}>Báo cáo</Text>
-                        </TouchableOpacity>
-                    }
                 </View>
             </View>
         </View>
@@ -72,9 +66,9 @@ const styles = StyleSheet.create({
     },
     statusAccept: {
         marginTop: 8,
-        borderBottomColor:COLORS.primary,
-        borderBottomWidth:1,
-        marginBottom:10,
+        borderBottomColor: COLORS.primary,
+        borderBottomWidth: 1,
+        marginBottom: 10,
         padding: 8,
         borderRadius: 10
     },
@@ -82,9 +76,9 @@ const styles = StyleSheet.create({
         marginTop: 8,
         padding: 8,
         borderRadius: 10,
-        borderBottomColor:COLORS.primary,
-        borderBottomWidth:1,
-        marginBottom:10
+        borderBottomColor: COLORS.primary,
+        borderBottomWidth: 1,
+        marginBottom: 10
     },
     btnReport: {
         backgroundColor: 'red',
