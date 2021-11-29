@@ -39,7 +39,11 @@ export default function Login(props: any) {
 
   const loginBtn = () => {
     // dispatch(login('natswarchuan@gmail.com', 'Chuan1999'))
-    dispatch(login('hoanganh34k@gmail.com', 'Hoanganh11k'))
+    if (email != '' && password != '') {
+      dispatch(login(email, password));
+    } else {
+      Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
+    }
   }
 
   useEffect(() => {
@@ -61,7 +65,30 @@ export default function Login(props: any) {
       Alert.alert('Thông Báo', status)
     }
   }, [status])
-
+  const valiDate = (text: any, type: any) => {
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
+    if (type == 'email') {
+      if (emailRegex.test(text)) {
+        setEmail(text)
+        setEmailValdate(true);
+      }
+      else {
+        setEmail('')
+        setEmailValdate(false)
+      }
+    }
+    else if (type == 'password') {
+      if (passwordRegex.test(text)) {
+        setPassword(text)
+        setPasswordValdate(true);
+      }
+      else {
+        setPassword('')
+        setPasswordValdate(false)
+      }
+    }
+  }
   const Divider = (props: any) => {
     return <View {...props}>
       <View style={styles.line}></View>
