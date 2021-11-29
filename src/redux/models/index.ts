@@ -181,4 +181,6 @@ export interface UserStage {
     userInfor?: UserModel;
     error: string | undefined;
     dataLogin: any;
+    userAll:any;
+    checkEditStatus:any;
 }
