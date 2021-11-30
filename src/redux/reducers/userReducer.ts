@@ -10,6 +10,7 @@ const initialState: UserStage = {
     dataLogin: undefined,
     userAll: undefined,
     checkEditStatus: undefined,
+    dataCreateUser: undefined,
 }
 
 const userReducer = (state: UserStage = initialState, action: UserActions) => {
@@ -33,6 +34,11 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
             return {
                 ...state,
                 userAll: action.payload
+            }
+        case UserActionType.CREATE_USER:
+            return {
+                ...state,
+                dataCreateUser: action.payload
             }
         case UserActionType.EDIT_STATUS:
             return {
