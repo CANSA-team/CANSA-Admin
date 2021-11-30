@@ -66,6 +66,8 @@ export default function Home() {
                                         <Menu onTab={() => navigate('ManagerRevenue')} icon="barschart" title="Quản lý doanh thu" description="Quản lý doanh thu của app" />
                                         <Menu onTab={() => navigate('Ordered')} icon="inbox" title="Quản lí order" description="Quản lí các sản phẩm người dùng đã đặt" />
                                         <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
+                                        <Menu onTab={() => navigate('AddUser')} icon="team" title="Cấp tài khoản" description="Cấp tài khoản admin hoặc ship" />
+
                                     </>
                             }
 

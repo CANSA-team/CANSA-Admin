@@ -30,7 +30,11 @@ export interface EditStatus {
     readonly type: UserActionType.EDIT_STATUS,
     payload?: UserModel
 }
-export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | login | GetAllUser | EditStatus;
+export interface CreateUser {
+    readonly type: UserActionType.CREATE_USER,
+    payload?: UserModel
+}
+export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | login | GetAllUser | EditStatus | CreateUser;
 
 export const checkLogin = () => {
     return async (dispatch: Dispatch<UserActions>) => {
@@ -122,6 +126,31 @@ export const getUserInfo = () => {
             } else {
                 dispatch({
                     type: UserActionType.GET_UER_INFO,
+                    payload: response.data.data
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: UserActionType.ON_LOGIN_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
+export const CreateUser = (premisss:string,name:string,password:string,email:string) => {
+    return async (dispatch: Dispatch<UserActions>) => {
+        try {
+            const response = await axios.get<any>(`${cansa[1]}/api/user/create/${premisss}/${name}/${password}/${email}/e4611a028c71342a5b083d2cbf59c494`)
+            if (!response) {
+                dispatch({
+                    type: UserActionType.ON_LOGIN_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                // save our location in local storage
+                dispatch({
+                    type: UserActionType.CREATE_USER,
                     payload: response.data.data
                 })
             }

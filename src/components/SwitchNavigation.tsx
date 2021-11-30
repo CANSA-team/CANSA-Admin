@@ -22,6 +22,8 @@ import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
 import OTPscreen from '../screens/Auth/OTPscreen';
 import ChangePassword from '../screens/Auth/ChangePassword';
 import ManagerUser from '../screens/managerUser/ManagerUser';
+import AddUser from '../screens/managerUser/AddUser';
+
 import NewCategory from '../screens/managerCategory/NewCategory';
 import EditCategory from '../screens/managerCategory/EditCategory';
 import CategorySubList from '../screens/managerCategory/CategorySubList';
@@ -65,6 +67,7 @@ const switchNavigator = createSwitchNavigator({
                 ManagerUser,
                 Ordered,
                 OderDetail,
+                AddUser,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

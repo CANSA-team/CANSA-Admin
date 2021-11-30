@@ -183,4 +183,5 @@ export interface UserStage {
     dataLogin: any;
     userAll:any;
     checkEditStatus:any;
+    dataCreateUser:any;
 }
