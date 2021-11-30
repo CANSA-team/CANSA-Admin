@@ -102,10 +102,10 @@ export default function EditCategory(props: any) {
 
   return (
     <View style={styles.container}>
-      <HeaderTitle title="Thêm danh mục" />
+      <HeaderTitle title="Sửa danh mục" />
       <View style={styles.header}>
-        <TouchableOpacity>
-          <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <MaterialIcons name="arrow-back" size={35} color="white"/>
         </TouchableOpacity>
       </View>
       <View style={{ marginHorizontal: 10 }}>
@@ -166,7 +166,7 @@ export default function EditCategory(props: any) {
           !isLoading ?
             <TouchableOpacity onPress={handleSubmit(onSubmitForm)} style={{ backgroundColor: COLORS.primary, borderRadius: 6, marginTop: 40 }}>
               <View style={{ padding: 8 }}>
-                <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Thêm</Text>
+                <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
               </View>
             </TouchableOpacity>
             :

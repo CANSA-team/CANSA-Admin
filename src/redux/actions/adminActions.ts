@@ -55,7 +55,6 @@ export const getAccess = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.GET_ACCESS,
                     payload: response.data.data
@@ -82,7 +81,6 @@ export const getRevenue = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.GET_REVENUE,
                     payload: response.data.data
@@ -109,7 +107,6 @@ export const updateCommission = (commission_rate: number, last_update: number) =
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.UPDATE_COMMISSION,
                     payload: response.data.data
@@ -136,7 +133,6 @@ export const getCommission = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.GET_COMMISSION,
                     payload: response.data.data
@@ -163,7 +159,6 @@ export const updateShip = (ship_price: number, last_update: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.UPDATE_SHIP,
                     payload: response.data.data
@@ -190,7 +185,6 @@ export const getShip = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.GET_SHIP,
                     payload: response.data.data
@@ -217,7 +211,6 @@ export const getComplaint = (page: number = 1) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: AdminActionType.GET_COMPLAINT,
                     payload: response.data.data

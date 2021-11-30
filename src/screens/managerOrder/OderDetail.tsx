@@ -14,7 +14,7 @@ export default function OderDetail(props: any) {
     const { navigate } = useNavigation();
     const { navigation } = props;
     const { getParam } = navigation;
-    const [_oder, setOder] = useState(getParam('oder'));
+    const [_oder, setOder] = useState<OrderModel>(getParam('oder'));
     const [check, setCheck] = useState(false)
     const [changesStatus, setChangeStatus] = useState(false)
     const dispatch = useDispatch();
@@ -54,7 +54,6 @@ export default function OderDetail(props: any) {
             setOder(order);
             setCheck(false);
         }
-        console.log(orderList?.length, changesStatus)
         if (orderList?.length && changesStatus) {
             setChangeStatus(false);
             navigate('Ordered')
@@ -107,8 +106,8 @@ export default function OderDetail(props: any) {
         <SafeAreaView style={styles.container}>
             <HeaderTitle title={`Mã đơn hàng: ${_oder.oder_id}`} />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons style={styles.headerIcon} name="arrow-back" size={28} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons style={styles.headerIcon} name="arrow-back" size={28} color="white"/>
                 </TouchableOpacity>
             </View>
             <View style={styles.container}>
@@ -126,18 +125,31 @@ export default function OderDetail(props: any) {
                         </ScrollView>
                     </View>
                     <View style={styles.bill}>
-                        <Text style={styles.txtTotal}>Totals</Text>
+                        <View>
+                            <Text style={{ fontSize: 22,fontWeight:'bold',color:'#111' }}>Tên người nhận:</Text>
+                            <Text style={{ fontSize: 20,color:'#111' }}>{_oder && _oder.oder_customer.user_full_name}</Text>
+                        </View>
+                        <View>
+                            <Text style={{ fontSize: 22,fontWeight:'bold',color:'#111' }}>Địa chỉ:</Text>
+                            <Text style={{ fontSize: 20,color:'#111' }}>{_oder && _oder.oder_address}</Text>
+                        </View>
+                        <View>
+                            <Text style={{ fontSize: 22,fontWeight:'bold',color:'#111' }}>Số điện thoại:</Text>
+                            <Text style={{ fontSize: 20,color:'#111' }}>{_oder && _oder.oder_phone}</Text>
+                        </View>
+                        
+                        <Text style={styles.txtTotal}>Chi phí</Text>
                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>Sub total :</Text>
-                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>{vnd(sub_price)}đ</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 20 }]}>Tổng tiền :</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 20 }]}>{vnd(sub_price)}đ</Text>
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: 'space-between', borderBottomColor: 'gray', borderBottomWidth: 1, paddingBottom: 5 }}>
-                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>Ship total :</Text>
-                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>{vnd(ship_price.ship_price)}đ</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 20 }]}>Tiền ship :</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 20 }]}>{vnd(ship_price.ship_price)}đ</Text>
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                            <Text style={[styles.priceTitle, { fontSize: 24 }]}>Total Price :</Text>
-                            <Text style={[styles.priceTitle, { fontSize: 24 }]}>{vnd(total_price)}đ</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>Thành tiền :</Text>
+                            <Text style={[styles.priceTitle, { fontSize: 22 }]}>{vnd(total_price)}đ</Text>
                         </View>
                     </View>
                     {
@@ -176,14 +188,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#E5E5E5',
         padding: 15,
         borderRadius: 15,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 4,
     },
     priceTitle: {
         color: '#111'
@@ -216,9 +220,10 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     txtTotal: {
-        fontSize: 26,
+        fontSize: 22,
         fontWeight: 'bold',
-        textAlign: 'left'
+        textAlign: 'left',
+        color:'#111'
     },
     btnCheckOut: {
         marginTop: 20,
