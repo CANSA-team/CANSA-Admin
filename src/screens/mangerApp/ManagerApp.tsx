@@ -69,8 +69,8 @@ export default function ManagerApp(props: any) {
         <View style={styles.container}>
             <HeaderTitle title="Quản lí App" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
             {
@@ -116,7 +116,7 @@ export default function ManagerApp(props: any) {
                                 :
                                 <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
                                     <View style={{ padding: 6 }}>
-                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
                                     </View>
                                 </TouchableOpacity>
                             }
@@ -157,7 +157,7 @@ export default function ManagerApp(props: any) {
                                 :
                                 <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
                                     <View style={{ padding: 6 }}>
-                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Gửi</Text>
+                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
                                     </View>
                                 </TouchableOpacity>
                             }

@@ -47,7 +47,6 @@ export default function Login(props: any) {
   }
 
   useEffect(() => {
-    console.log(dataLogin)
     if (dataLogin !== undefined && dataLogin !== null) {
       if (dataLogin.permission_id === 3 || dataLogin.permission_id === 4) {
         navigate('homeStack')
@@ -102,8 +101,8 @@ export default function Login(props: any) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity>
-            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white" onPress={() => navigate('homeStack')} />
+          <TouchableOpacity onPress={() => navigate('homeStack')} >
+            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white"/>
           </TouchableOpacity>
         </View>
         <View style={styles.up}>

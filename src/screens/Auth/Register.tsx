@@ -61,7 +61,6 @@ export default function Resgister() {
     if (email != '' && password != '') {
       axios.get(`${cansa[1]}/api/user/create/1/${name}/${password}/${email}/e4611a028c71342a5b083d2cbf59c494`)
         .then(res => {
-          console.log(res.data.status)
           //Trạng thái khi đăng nhập thành công
           if (res.data.status == 'success') {
             navigate('Login');
@@ -88,8 +87,8 @@ export default function Resgister() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity>
-            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white" onPress={() => { navigate('Login') }} />
+          <TouchableOpacity onPress={() => { navigate('Login') }}>
+            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white"/>
           </TouchableOpacity>
         </View>
         <View style={styles.up}>

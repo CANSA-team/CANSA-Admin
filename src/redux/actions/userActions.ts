@@ -46,7 +46,6 @@ export const checkLogin = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.CHECK_LOGIN,
                     payload: response.data.data
@@ -70,14 +69,12 @@ export const login = (email: string, password: string) => {
                 password: password,
             }
             const response = await axios.post<any>(`${cansa[1]}/api/user/login/admin/e4611a028c71342a5b083d2cbf59c494`, data, { withCredentials: true })
-            console.log(response.data);
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.LOGIN,
                     payload: response.data.data
@@ -102,7 +99,6 @@ export const GetAllUser = (option: string, page: number, numPage: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.GET_ALL_USER,
                     payload: response.data.data
@@ -128,7 +124,6 @@ export const getUserInfo = () => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: UserActionType.GET_UER_INFO,
                     payload: response.data.data
@@ -178,7 +173,6 @@ export const EditStatus = (id:number,status:number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 let editStatusData:any = {id:id,status:status,ischeck:response.data.data}
                 dispatch({
                     type: UserActionType.EDIT_STATUS,

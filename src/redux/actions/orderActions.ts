@@ -40,7 +40,6 @@ export const getOders = (page: number = 1) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: OrderActionType.GET_ALL_ORDER,
                     payload: response.data.data
@@ -67,7 +66,6 @@ export const updateStatusOrder = (oder_id: number, status: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: OrderActionType.UPDATE_STATUS_ORDER_LIST,
                     payload: response.data.data
@@ -94,7 +92,6 @@ export const getOder = (order_id: number) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: OrderActionType.GET_ODER,
                     payload: response.data.data
@@ -126,7 +123,6 @@ export const updateStatusOder = (order_id: number, product_id: number, status: n
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: OrderActionType.UPDATE_STATUS_ORDER,
                     payload: response.data.data

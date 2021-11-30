@@ -55,8 +55,8 @@ export default function ShopDetail(props: any) {
         <View style={styles.containerTop}>
             <HeaderTitle title="Sản phẩm shop" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
 

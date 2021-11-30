@@ -547,8 +547,8 @@ export default function NewCategory(props: any) {
     <View style={styles.container}>
       <HeaderTitle title="Thêm danh mục" />
       <View style={styles.header}>
-        <TouchableOpacity>
-          <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+        <TouchableOpacity onPress={() => navigation.goBack()} >
+          <MaterialIcons name="arrow-back" size={35} color="white"/>
         </TouchableOpacity>
       </View>
       <View style={{ marginHorizontal: 10 }}>

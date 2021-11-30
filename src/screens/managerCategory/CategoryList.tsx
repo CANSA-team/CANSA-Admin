@@ -50,11 +50,11 @@ export default function CategoryList(props: any) {
     <View style={styles.container}>
       <HeaderTitle title="Danh mục lớn" />
       <View style={styles.header}>
-        <TouchableOpacity>
-          <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <MaterialIcons name="arrow-back" size={35} color="white"/>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="ios-add" onPress={() => navigate('NewCategory')} size={35} color="white" />
+        <TouchableOpacity onPress={() => navigate('NewCategory')}>
+          <Ionicons name="ios-add" size={35} color="white" />
         </TouchableOpacity>
       </View>
 

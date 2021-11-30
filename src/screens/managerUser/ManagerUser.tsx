@@ -68,8 +68,8 @@ export default function ManagerUser(props: any) {
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Quản lí người dùng" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
 

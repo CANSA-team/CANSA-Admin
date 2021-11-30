@@ -100,11 +100,11 @@ export default function ManagerSlider(props: any) {
         <View style={styles.container}>
             <HeaderTitle title="Quản lí Slider" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Ionicons name="ios-add" onPress={() => navigate('NewSlide')} size={35} color="white" />
+                <TouchableOpacity onPress={() => navigate('NewSlide')}>
+                    <Ionicons name="ios-add" size={35} color="white" />
                 </TouchableOpacity>
             </View>
 
