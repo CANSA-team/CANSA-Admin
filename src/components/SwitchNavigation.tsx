@@ -86,6 +86,9 @@ const switchNavigator = createSwitchNavigator({
         account: {
             screen: createStackNavigator({
                 Account,
+                EmailOTPscreen,
+                ChangePassword,
+                OTPscreen,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

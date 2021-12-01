@@ -5,7 +5,7 @@ import { UserStage, UserModel } from "../models";
 
 const initialState: UserStage = {
     check: false,
-    userInfor: undefined,
+    userInfor: {} as UserModel,
     error: undefined,
     dataLogin: undefined,
     userAll: undefined,
@@ -39,6 +39,11 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
             return {
                 ...state,
                 dataCreateUser: action.payload
+            }
+        case UserActionType.LOGOUT:
+            return {
+                ...state,
+                dataLogin: action.payload
             }
         case UserActionType.EDIT_STATUS:
             return {

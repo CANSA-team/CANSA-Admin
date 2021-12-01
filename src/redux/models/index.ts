@@ -50,14 +50,20 @@ export interface ShopModel {
     status: number;
     shop_avatar_id: number;
 }
-export class UserModel {
-    user_id?: number;
-    user_key?: null;
-    user_name?: string;
-    user_avatar?: string;
-    user_status?: number;
-    user_last_update?: number;
+export interface UserModel {
+    user_id: number;
+    user_phone: string;
+    user_email: string;
+    user_key: null;
+    user_name: string;
+    user_avatar: string;
+    user_status: number;
+    user_last_update: number;
+    user_real_name: string;
+    user_birthday: Date;
+    user_avatar_image: string;
 }
+
 export interface ChangeStatus {
     status: string;
     data: number;
@@ -178,10 +184,10 @@ export interface OrderState {
 
 export interface UserStage {
     check: boolean;
-    userInfor?: UserModel;
+    userInfor: UserModel;
     error: string | undefined;
     dataLogin: any;
-    userAll:any;
-    checkEditStatus:any;
-    dataCreateUser:any;
+    userAll: any;
+    checkEditStatus: any;
+    dataCreateUser: any;
 }

@@ -34,7 +34,12 @@ export interface CreateUser {
     readonly type: UserActionType.CREATE_USER,
     payload?: UserModel
 }
-export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | login | GetAllUser | EditStatus | CreateUser;
+export interface Logout {
+    readonly type: UserActionType.LOGOUT,
+    payload?: string
+}
+
+export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | login | GetAllUser | EditStatus | CreateUser | Logout;
 
 export const checkLogin = () => {
     return async (dispatch: Dispatch<UserActions>) => {
@@ -138,7 +143,7 @@ export const getUserInfo = () => {
 
     }
 }
-export const CreateUser = (premisss:string,name:string,password:string,email:string) => {
+export const CreateUser = (premisss: string, name: string, password: string, email: string) => {
     return async (dispatch: Dispatch<UserActions>) => {
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/create/${premisss}/${name}/${password}/${email}/e4611a028c71342a5b083d2cbf59c494`)
@@ -163,7 +168,7 @@ export const CreateUser = (premisss:string,name:string,password:string,email:str
 
     }
 }
-export const EditStatus = (id:number,status:number) => {
+export const EditStatus = (id: number, status: number) => {
     return async (dispatch: Dispatch<UserActions>) => {
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/update/status/${id}/${status}`)
@@ -173,10 +178,40 @@ export const EditStatus = (id:number,status:number) => {
                     payload: 'Product list error'
                 })
             } else {
-                let editStatusData:any = {id:id,status:status,ischeck:response.data.data}
+                let editStatusData: any = { id: id, status: status, ischeck: response.data.data }
                 dispatch({
                     type: UserActionType.EDIT_STATUS,
                     payload: editStatusData
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: UserActionType.ON_LOGIN_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
+
+export const logout = () => {
+    return async (dispatch: Dispatch<UserActions>) => {
+        try {
+            const response = await axios.get<any>(`${cansa[1]}/api/user/logout`, { withCredentials: true })
+            if (!response) {
+                dispatch({
+                    type: UserActionType.ON_LOGIN_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                let status = 'success'
+                if (response.data.status == 'success') {
+                    status = 'Faild';
+                }
+                // save our location in local storage
+                dispatch({
+                    type: UserActionType.LOGOUT,
+                    payload: status
                 })
             }
         } catch (error) {
