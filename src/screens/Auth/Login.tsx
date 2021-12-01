@@ -45,19 +45,23 @@ export default function Login(props: any) {
       Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
     }
   }
-
+  useEffect(()=>{
+    dispatch(checkLogin())
+  },[dataLogin])
   useEffect(() => {
-    if (dataLogin !== undefined && dataLogin !== null) {
-      if (dataLogin.permission_id === 3 || dataLogin.permission_id === 4) {
-        navigate('homeStack')
-      } else {
-        setStatus('Không đủ quyền hạn')
-        setCheckStatus(true)
+    if (check === true) {
+      if (dataLogin !== undefined && dataLogin !== null) {
+        if (dataLogin.permission_id === 3 || dataLogin.permission_id === 4) {
+          navigate('homeStack')
+        } else {
+          setStatus('Không đủ quyền hạn')
+          setCheckStatus(true)
+        }
+      } else if (dataLogin == undefined && dataLogin == null) {
+        setStatus('Không đúng mật khẩu')
       }
-    } else if (dataLogin == undefined && dataLogin == null) {
-      setStatus('Không đúng mật khẩu')
     }
-  }, [dataLogin])
+  }, [dataLogin,check])
 
   useEffect(() => {
     if (status !== '') {
@@ -102,7 +106,7 @@ export default function Login(props: any) {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigate('homeStack')} >
-            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white"/>
+            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white" />
           </TouchableOpacity>
         </View>
         <View style={styles.up}>

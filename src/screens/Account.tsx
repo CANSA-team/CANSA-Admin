@@ -7,12 +7,12 @@ import { useNavigation } from '../utils/useNavigation';
 import HeaderTitle from '../components/HeaderTitle';
 import { State, UserStage, UserModel } from '../redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, logout } from '../redux/actions/userActions';
+import { getUserInfo, logout, checkLogin } from '../redux/actions/userActions';
 
 export default function Account() {
     const { navigate } = useNavigation();
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { userInfor }: { userInfor: UserModel } = userState;
+    const { check, userInfor }: { check: boolean, userInfor: UserModel } = userState;
     const dispatch = useDispatch();
 
     const onTapProfile = () => {
@@ -25,8 +25,13 @@ export default function Account() {
 
     const _logout = () => {
         dispatch(logout());
+        dispatch(checkLogin())
     }
-
+    useEffect(() => {
+        if (check === false) {
+            navigate('Login')
+        }
+    }, [check])
     return (
         <SafeAreaView style={styles.container}>
             <HeaderTitle title={'ACCOUNT'} />
