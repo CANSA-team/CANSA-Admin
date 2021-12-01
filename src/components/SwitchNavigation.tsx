@@ -16,19 +16,46 @@ import EditSlide from '../screens/managerSlider/EditSlide';
 import ManagerRevenue from '../screens/managerRevenue/ManagerRevenue';
 import ShopDetail from '../screens/managerShop/ShopDetail';
 import ManagerShop from '../screens/managerShop/ManagerShop';
+import Login from '../screens/Auth/Login';
+import Register from '../screens/Auth/Register';
+import EmailOTPscreen from '../screens/Auth/EmailOTPscreen';
+import OTPscreen from '../screens/Auth/OTPscreen';
+import ChangePassword from '../screens/Auth/ChangePassword';
 import ManagerUser from '../screens/managerUser/ManagerUser';
+import AddUser from '../screens/managerUser/AddUser';
 
+import NewCategory from '../screens/managerCategory/NewCategory';
+import EditCategory from '../screens/managerCategory/EditCategory';
+import CategorySubList from '../screens/managerCategory/CategorySubList';
+import Ordered from '../screens/managerOrder/Ordered';
+import OderDetail from '../screens/managerOrder/OderDetail';
 
 const DIMENS = {
     iconSize: 30,
     fontNameCategory: 15
 }
 const switchNavigator = createSwitchNavigator({
+    loginStack: {
+        screen: createStackNavigator({
+            Login,
+            OTPscreen,
+            EmailOTPscreen,
+            ChangePassword,
+            Register,
+        }, {
+            defaultNavigationOptions: {
+                headerShown: false
+            }
+        })
+    },
     homeStack: createBottomTabNavigator({
         home: {
             screen: createStackNavigator({
                 Home,
                 CategoryList,
+                NewCategory,
+                EditCategory,
+                CategorySubList,
                 ManagerApp,
                 ManagerReport,
                 ManagerShop,
@@ -38,6 +65,9 @@ const switchNavigator = createSwitchNavigator({
                 ManagerRevenue,
                 ShopDetail,
                 ManagerUser,
+                Ordered,
+                OderDetail,
+                AddUser,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,
@@ -56,6 +86,9 @@ const switchNavigator = createSwitchNavigator({
         account: {
             screen: createStackNavigator({
                 Account,
+                EmailOTPscreen,
+                ChangePassword,
+                OTPscreen,
             }, {
                 defaultNavigationOptions: {
                     headerShown: false,

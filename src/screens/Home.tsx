@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeaderBar from '../components/HeaderBar';
 import Menu from '../components/Menu';
 import COLORS from '../consts/Colors';
-import { AccessModel, AdminState, getAccess, State } from '../redux';
+import { AccessModel, AdminState, getAccess, getShip, State, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 
 
@@ -13,10 +13,13 @@ export default function Home() {
     const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
     const { access_list }: { access_list: AccessModel[] } = adminSate;
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { dataLogin }: { dataLogin: any } = userState;
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getAccess());
+        dispatch(getShip());
     }, [])
 
     useEffect(() => {
@@ -50,14 +53,24 @@ export default function Home() {
                         </View>
                         <Text style={styles.txtAction}>Actions :</Text>
                         <View style={styles.menuList}>
-                            <Menu onTab={() => navigate('ManagerApp')} icon="sync" title="Quản lý App" description="Quản lý thông tin phí giao hàng, phần trăm hoa hồng" />
-                            <Menu onTab={() => navigate('CategoryList')} icon="appstore-o" title="Quản lý danh mục" description="Quản lý các danh mục của app tại đây" />
-                            <Menu onTab={() => navigate('ManagerSlider')} icon="picture" title="Quản lý slide" description="Quản lý slider của app" />
-                            <Menu onTab={() => navigate('ManagerShop')} icon="isv" title="Quản lý các shop" description="Quản lý những người bán hàng" />
-                            <Menu onTab={() => navigate('ManagerUser')} icon="team" title="Quản lý người dùng" description="Quản lý những người người dùng app" />
-                            <Menu icon="notification" title="Thông báo" description="Thông báo tới các shop" />
-                            <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
-                            <Menu onTab={() => navigate('ManagerRevenue')} icon="warning" title="Quản lý doanh thu" description="Quản lý doanh thu của app" />
+                            {
+                                dataLogin.permission_id === 4 ?
+                                    <Menu onTab={() => navigate('Ordered')} icon="inbox" title="Quản lí order" description="Quản lí các sản phẩm người dùng đã đặt" />
+                                    :
+                                    <>
+                                        <Menu onTab={() => navigate('ManagerApp')} icon="sync" title="Quản lý App" description="Quản lý thông tin phí giao hàng, phần trăm hoa hồng" />
+                                        <Menu onTab={() => navigate('CategoryList')} icon="appstore-o" title="Quản lý danh mục" description="Quản lý các danh mục của app tại đây" />
+                                        <Menu onTab={() => navigate('ManagerSlider')} icon="picture" title="Quản lý slide" description="Quản lý slider của app" />
+                                        <Menu onTab={() => navigate('ManagerShop')} icon="isv" title="Quản lý các shop" description="Quản lý những người bán hàng" />
+                                        <Menu onTab={() => navigate('ManagerUser')} icon="team" title="Quản lý người dùng" description="Quản lý những người người dùng app" />
+                                        <Menu onTab={() => navigate('ManagerRevenue')} icon="barschart" title="Quản lý doanh thu" description="Quản lý doanh thu của app" />
+                                        <Menu onTab={() => navigate('Ordered')} icon="inbox" title="Quản lí order" description="Quản lí các sản phẩm người dùng đã đặt" />
+                                        <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
+                                        <Menu onTab={() => navigate('AddUser')} icon="team" title="Cấp tài khoản" description="Cấp tài khoản admin hoặc ship" />
+
+                                    </>
+                            }
+
                         </View>
                     </ScrollView>
             }

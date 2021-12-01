@@ -36,7 +36,6 @@ export const getShopInfo = (shop_id: number, option: number = 0) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.GET_SHOP_INFO,
                     payload: response.data.data
@@ -63,7 +62,6 @@ export const getShopList = (page: number = 1) => {
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.GET_SHOP_LIST,
                     payload: response.data.data
@@ -90,7 +88,6 @@ export const updateStatusShop = (status: number, shop_id: number, page: number =
                     payload: 'Product list error'
                 })
             } else {
-                // save our location in local storage
                 dispatch({
                     type: ShopActionType.UPDATE_STATUS_SHOP,
                     payload: response.data.data

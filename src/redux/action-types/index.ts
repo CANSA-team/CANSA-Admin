@@ -46,3 +46,14 @@ export enum OrderActionType {
     GET_ODER = 'GET_ODER',
     ON_ORDER_ERROR = 'ON_ORDER_ERROR'
 }
+export enum UserActionType {
+    LOGIN = 'LOGIN',
+    LOGOUT = 'LOGOUT',
+    CHECK_LOGIN = 'CHECK_LOGIN',
+    EDIT_STATUS = 'EDIT_STATUS',
+    CREATE_USER = 'CREATE_USER',
+    GET_ALL_USER = 'GET_ALL_USER',
+    GET_UER_INFO = 'GET_UER_INFO',
+    ON_LOGIN_ERROR = 'ON_LOGIN_ERROR'
+}
+

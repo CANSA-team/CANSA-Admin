@@ -4,7 +4,7 @@ import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SlugStrTitle } from '../../consts/Selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { getShopList, ShopModel, ShopState, State } from '../../redux';
+import { getShopList, ShopModel, ShopState, State, updateStatusShop } from '../../redux';
 import { useNavigation } from '../../utils/useNavigation';
 
 export default function ManagerShop(props: any) {
@@ -39,13 +39,13 @@ export default function ManagerShop(props: any) {
             contentSize.height - paddingToBottom;
     };
 
-    const isStatus = (status: number, id: number) => {
+    const isStatus = (status: number, shop_id: number) => {
         const messenger = status ? "Xác nhận mở khoá shop?" : "Xác nhận khoá shop?"
         Alert.alert(
             "Thông báo!",
             messenger,
             [
-                { text: "Xác nhận", onPress: () => console.log(status) },
+                { text: "Xác nhận", onPress: () => dispatch(updateStatusShop(status, shop_id, page)) },
                 { text: "Huỷ" }
             ]
         );
@@ -55,8 +55,8 @@ export default function ManagerShop(props: any) {
         <View style={styles.container}>
             <HeaderTitle title="Quản lí các shop" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
             {

@@ -5,65 +5,43 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Pagination from "@mui/material/Pagination";
 import COLORS from '../../consts/Colors';
-
-
-const userList = [
-    {
-        user_id: 1,
-        user_key: "3",
-        user_name: "Natswar",
-        user_avatar: "426",
-        last_update: 1,
-        status: 1
-    },
-    {
-        user_id: 2,
-        user_key: null,
-        user_name: "WhiteKing",
-        user_avatar: "372",
-        last_update: 0,
-        status: 1
-    },
-    {
-        user_id: 124,
-        user_key: null,
-        user_name: "2051568581664238",
-        user_avatar: "454",
-        last_update: 124,
-        status: 0
-    },
-    {
-        user_id: 126,
-        user_key: null,
-        user_name: "1517619531926611",
-        user_avatar: null,
-        last_update: 0,
-        status: 1
-    },
-    {
-        user_id: 128,
-        user_key: null,
-        user_name: "sdsdsa",
-        user_avatar: null,
-        last_update: 0,
-        status: 1
-    },
-    {
-        user_id: 128,
-        user_key: null,
-        user_name: "sdsdsa",
-        user_avatar: null,
-        last_update: 0,
-        status: 1
-    },
-
-]
+import { useDispatch, useSelector } from 'react-redux'
+import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
+import { checkLogin, login, getUserInfo, GetAllUser,EditStatus } from '../../redux/actions/userActions'
 
 export default function ManagerUser(props: any) {
     const { navigation } = props;
-    const [page, setPage] = useState<number>(1);
-    const [data, setData] = useState(userList);
+    const [page, setPage] = useState<number>(0);
+    const [data, setData] = useState([]);
     const [isLoadMore, setisLoadMore] = useState(false)
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { userAll,checkEditStatus }: { userAll: any,checkEditStatus:any } = userState;
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(GetAllUser('asc_id', page, 15))
+        setisLoadMore(false)
+    }, [page])
+
+    useEffect(() => {
+        if (userAll !== undefined) {
+            let test:any = [...data, ...userAll]
+            setData(test)
+        } 
+    }, [userAll])
+    useEffect(()=>{
+        if(checkEditStatus!==undefined){
+            if(checkEditStatus.ischeck === true){
+                var temp:any = [...data];
+                temp.forEach((element:any) => {
+                    if(element.user_id === checkEditStatus.id){
+                        element.status = checkEditStatus.status
+                    }
+                });
+                setData(temp)
+            }
+        }
+    },[checkEditStatus])
 
     const isStatus = (status: number, id: number) => {
         const messenger = status ? "Xác nhận mở khoá tài khoản?" : "Xác nhận khoá tài khoản?"
@@ -71,37 +49,34 @@ export default function ManagerUser(props: any) {
             "Thông báo!",
             messenger,
             [
-                { text: "Xác nhận", onPress: () => console.log(status) },
+                { text: "Xác nhận", onPress: () => {
+                    dispatch(EditStatus(id,status))
+                } },
                 { text: "Huỷ" }
             ]
         );
     }
-
+    
     const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
         const paddingToBottom = 20;
         return layoutMeasurement.height + contentOffset.y >=
             contentSize.height - paddingToBottom;
     };
 
-    useEffect(() => {
-        let test = [...data, ...userList]
-        setData(test)
-        setisLoadMore(false)
-    }, [page])
-
+    
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Quản lí người dùng" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
 
             <ScrollView
                 onScroll={({ nativeEvent }) => {
                     if (isCloseToBottom(nativeEvent)) {
-                        setPage(page + 1);
+                        setPage(page + 15);
                         setisLoadMore(true);
                     }
                 }}

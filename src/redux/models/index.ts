@@ -20,7 +20,6 @@ export interface ProductModel {
 export interface ProductState {
     productList: ProductModel[];
     productShop: ProductModel[];
-    update_status: ChangeStatus;
     error: string | undefined;
 }
 
@@ -50,6 +49,19 @@ export interface ShopModel {
     last_update: number;
     status: number;
     shop_avatar_id: number;
+}
+export interface UserModel {
+    user_id: number;
+    user_phone: string;
+    user_email: string;
+    user_key: null;
+    user_name: string;
+    user_avatar: string;
+    user_status: number;
+    user_last_update: number;
+    user_real_name: string;
+    user_birthday: Date;
+    user_avatar_image: string;
 }
 
 export interface ChangeStatus {
@@ -92,6 +104,7 @@ export interface SliderModel {
     status: number;
     slider_title: string;
     slider_image: string;
+    last_update: number;
 }
 
 export interface SliderState {
@@ -106,6 +119,8 @@ export interface CategoryModel {
     category_name: string;
     last_update: number;
     status: number;
+    category_category: number | null;
+    category_image_id: number;
     categories: any[];
 }
 
@@ -165,4 +180,14 @@ export interface OrderState {
     orderList: OrderModel[];
     order: OrderModel;
     error: string | undefined;
+}
+
+export interface UserStage {
+    check: boolean;
+    userInfor: UserModel;
+    error: string | undefined;
+    dataLogin: any;
+    userAll: any;
+    checkEditStatus: any;
+    dataCreateUser: any;
 }
