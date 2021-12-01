@@ -116,7 +116,7 @@ export default function Login(props: any) {
             color={'rgb(221, 97, 97)'}>
           </Ionicons>
           <Text style={styles.title}>
-            Account Information
+            Nhập thông tin tài khoản
           </Text>
         </View>
 
@@ -126,7 +126,7 @@ export default function Login(props: any) {
               style={[styles.textInput, !emailValdate ? styles.error : null]}
               textContentType='emailAddress'
               keyboardType='email-address'
-              placeholder="Enter your email"
+              placeholder="Nhập e-mail"
               onChangeText={(text) => valiDate(text, 'email')}
             >
             </TextInput>
@@ -136,7 +136,7 @@ export default function Login(props: any) {
           <View style={styles.textInputContainer}>
             <TextInput
               style={[styles.textInput, !passwordValdate ? styles.error : null]}
-              placeholder="Enter your password"
+              placeholder="Nhập mật khẩu"
               secureTextEntry={true}
               onChangeText={(text) => valiDate(text, 'password')}
             >
