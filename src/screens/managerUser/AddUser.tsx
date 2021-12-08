@@ -5,20 +5,15 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    TouchableWithoutFeedback,
-    Keyboard,
-    ActivityIndicator,
     Picker,
     Alert,
 } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Pagination from "@mui/material/Pagination";
-import COLORS from '../../consts/Colors';
 import { useDispatch, useSelector } from 'react-redux'
-import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
-import { checkLogin, login, getUserInfo, GetAllUser, EditStatus, CreateUser } from '../../redux/actions/userActions'
+import {  State,  UserStage } from '../../redux'
+import {  CreateUser } from '../../redux/actions/userActions'
+import COLORS from '../../consts/Colors';
 
 export default function AddUser(props: any) {
     const { navigation } = props;
@@ -31,7 +26,7 @@ export default function AddUser(props: any) {
     const [password, setPassword] = useState('')
     const [passwordValdate, setPasswordValdate] = useState(true)
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check, dataLogin,dataCreateUser }: { check: boolean, dataLogin: any, dataCreateUser:any } = userState;
+    const { dataCreateUser }: { check: boolean, dataLogin: any, dataCreateUser:any } = userState;
     const dispatch = useDispatch();
 
     const valiDate = (text: any, type: any) => {
@@ -76,8 +71,8 @@ export default function AddUser(props: any) {
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Cấp Tài Khoản" />
             <View style={styles.header}>
-                <TouchableOpacity>
-                    <MaterialIcons name="arrow-back" size={35} color="white" onPress={() => navigation.goBack()} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons name="arrow-back" size={35} color="white"/>
                 </TouchableOpacity>
             </View>
             <View style={styles.down}>
@@ -86,7 +81,7 @@ export default function AddUser(props: any) {
                         style={[styles.textInput, !emailValdate ? styles.error : null]}
                         textContentType='emailAddress'
                         keyboardType='email-address'
-                        placeholder="Enter your name"
+                        placeholder="Nhập tên của bạn"
                         onChangeText={(text) => setName(text)}
                     >
                     </TextInput>
@@ -96,7 +91,7 @@ export default function AddUser(props: any) {
                         style={[styles.textInput, !emailValdate ? styles.error : null]}
                         textContentType='emailAddress'
                         keyboardType='email-address'
-                        placeholder="Enter your email"
+                        placeholder="Nhập email của bạn"
                         onChangeText={(text) => valiDate(text, 'email')}
                     >
                     </TextInput>
@@ -106,22 +101,23 @@ export default function AddUser(props: any) {
                 <View style={styles.textInputContainer}>
                     <TextInput
                         style={[styles.textInput, !passwordValdate ? styles.error : null]}
-                        placeholder="Enter your password"
+                        placeholder="Nhập password của bạn"
                         secureTextEntry={true}
                         onChangeText={(text) => valiDate(text, 'password')}
                     >
                     </TextInput>
                 </View>
-                <Picker
-                    selectedValue={selectedValue}
-                    style={{ height: 50, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                    <Picker.Item label="---Chọn---" value="" />
-                    <Picker.Item label="Admin" value="3" />
-                    <Picker.Item label="Shiper" value="4" />
-                </Picker>
-
+                <View style={{borderColor:'#ccc',borderWidth:1,marginBottom:20}}>
+                    <Picker
+                        selectedValue={selectedValue}
+                        style={{ height: 50, width: 150 }}
+                        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                    >
+                        <Picker.Item label="---Chọn---" value="" />
+                        <Picker.Item label="Admin" value="3" />
+                        <Picker.Item label="Shiper" value="4" />
+                    </Picker>
+                </View>
 
                 <TouchableOpacity style={styles.loginButton}
                     onPress={() => createUserAccount()}
@@ -151,8 +147,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 5,
         position: 'absolute',
-        top: 30,
-        left: 10,
+        top: 34,
+        left: 5,
         right: 0,
         zIndex: 2
     },
@@ -168,16 +164,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     down: {
-        flex: 7,
+        marginTop:30,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center'
-    },
-    title: {
-        color: 'rgb(255,119,34)',
-        textAlign: 'center',
-        width: 400,
-        fontSize: 23
     },
     textInputContainer: {
         paddingHorizontal: 10,
@@ -187,15 +177,19 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: 280,
-        height: 45
-    },
+        height: 50,
+        borderColor:COLORS.primary,
+        borderWidth:1,
+        borderRadius:5,
+        padding: 10
+      },
     loginButton: {
         width: 300,
         height: 45,
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(221, 97, 97)'
+        backgroundColor: COLORS.primary
     },
     loginButtonTitle: {
         fontSize: 18,

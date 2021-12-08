@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, {  useState } from 'react'
 import {
     StyleSheet,
     Text,
@@ -13,9 +13,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '../../utils/useNavigation'
 import axios from 'axios'
 import { cansa } from '../../consts/Selector'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function EmailOTPscreen() {
-
+export default function EmailOTPscreen(props:any) {
+    const { navigation } = props;
     const { navigate } = useNavigation();
     const [emailValdate, setEmailValdate] = useState(true)
     const [email, setEmail] = useState('')
@@ -45,6 +46,11 @@ export default function EmailOTPscreen() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white"/>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.up}>
                     <Ionicons
                         name="ios-speedometer"
@@ -93,6 +99,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'stretch',
         backgroundColor: '#33FF99'
+    },
+    headerIcon: {
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        borderRadius: 50,
+        padding: 5
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 34,
+        left: 5,
+        right: 0,
+        zIndex: 2
     },
     up: {
         flex: 4,

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Image, Alert, ActivityIndicator } from 'react-native'
+import { TouchableOpacity, View, StyleSheet, ScrollView, Text, Alert, ActivityIndicator } from 'react-native'
 import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Pagination from "@mui/material/Pagination";
 import COLORS from '../../consts/Colors';
 import { useDispatch, useSelector } from 'react-redux'
-import { ShopModel, ShopState, State, UserModel, UserStage } from '../../redux'
-import { checkLogin, login, getUserInfo, GetAllUser,EditStatus } from '../../redux/actions/userActions'
+import {  State, UserStage } from '../../redux'
+import {  GetAllUser,EditStatus } from '../../redux/actions/userActions'
 
 export default function ManagerUser(props: any) {
     const { navigation } = props;

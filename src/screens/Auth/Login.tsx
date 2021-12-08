@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Text,
@@ -7,21 +7,16 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ActivityIndicator,
   Alert,
+  Image,
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
-import { cansa } from '../../consts/Selector'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from '../../redux'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ShopModel, ShopState, UserModel, UserStage } from '../../redux'
+import { UserStage } from '../../redux'
 import { checkLogin, login } from '../../redux/actions/userActions'
-
-
+import COLORS from '../../consts/Colors'
 
 export default function Login(props: any) {
   const { navigate } = useNavigation();
@@ -31,7 +26,6 @@ export default function Login(props: any) {
   const [emailValdate, setEmailValdate] = useState(true)
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
-  const [isLoading, setisLoading] = useState(false)
   const userState: UserStage = useSelector((state: State) => state.userReducer);
   const { check, dataLogin }: { check: boolean, dataLogin: any } = userState;
 
@@ -104,20 +98,9 @@ export default function Login(props: any) {
     //Donot dismis Keyboard when click outside of TextInput
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigate('homeStack')} >
-            <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white" />
-          </TouchableOpacity>
-        </View>
+        
         <View style={styles.up}>
-          <Ionicons
-            name="ios-speedometer"
-            size={100}
-            color={'rgb(221, 97, 97)'}>
-          </Ionicons>
-          <Text style={styles.title}>
-            Nhập thông tin tài khoản
-          </Text>
+          <Image style={{width:150,height:150}} source={require('../../images/icon.png')} />
         </View>
 
         <View style={styles.down}>
@@ -132,7 +115,6 @@ export default function Login(props: any) {
             </TextInput>
           </View>
 
-
           <View style={styles.textInputContainer}>
             <TextInput
               style={[styles.textInput, !passwordValdate ? styles.error : null]}
@@ -142,8 +124,6 @@ export default function Login(props: any) {
             >
             </TextInput>
           </View>
-
-
 
           <TouchableOpacity style={styles.loginButton}
             onPress={() => loginBtn()}
@@ -164,17 +144,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: '#33FF99'
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 5,
-    position: 'absolute',
-    top: 30,
-    left: 10,
-    right: 0,
-    zIndex: 2
+    backgroundColor: '#fff'
   },
   headerIcon: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -182,6 +152,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   up: {
+    marginTop:50,
+    marginBottom:20,
     flex: 3,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -194,10 +166,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    color: 'rgb(255,119,34)',
+    color: '#111',
     textAlign: 'center',
     width: 400,
-    fontSize: 23
+    fontSize: 24,
   },
   textInputContainer: {
     paddingHorizontal: 10,
@@ -207,7 +179,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: 280,
-    height: 45
+    height: 50,
+    borderColor:COLORS.primary,
+    borderWidth:1,
+    borderRadius:5,
+    padding: 10
   },
   loginButton: {
     width: 300,
@@ -215,7 +191,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(221, 97, 97)'
+    backgroundColor: COLORS.primary
   },
   loginButtonTitle: {
     fontSize: 18,
