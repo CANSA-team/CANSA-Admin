@@ -8,12 +8,13 @@ import {
     TouchableWithoutFeedback,
     Alert,
     Keyboard,
+    Image,
 } from 'react-native'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '../../utils/useNavigation'
 import axios from 'axios'
 import { cansa } from '../../consts/Selector'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import COLORS from '../../consts/Colors'
 
 export default function EmailOTPscreen(props:any) {
     const { navigation } = props;
@@ -48,26 +49,19 @@ export default function EmailOTPscreen(props:any) {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="white"/>
+                        <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="black"/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.up}>
-                    <Ionicons
-                        name="ios-speedometer"
-                        size={100}
-                        color={'rgb(221, 97, 97)'}>
-                    </Ionicons>
-                    <Text style={styles.title}>
-                        Email OTP Code
-                    </Text>
-                    <Text style={{ color: 'rgb(221, 97, 97)', fontSize: 15, marginTop: 10 }}>
+                    <Image style={{width:150,height:150}} source={require('../../images/icon.png')} />
+                    <Text style={{ color: '#111', fontSize: 15, marginTop: 10,marginHorizontal:20 }}>
                     Chúng tôi sẽ gửi mã 6 chữ số đến email của bạn để xác minh
                     </Text>
                 </View>
                 <View style={styles.down}>
                     <View style={styles.textInputContainer}>
 
-                        <Text style={{ fontSize: 18, marginRight: 285, color: 'rgb(221, 97, 97)' }}>Email</Text>
+                        <Text style={{ fontSize: 18, marginRight: 285, color: COLORS.primary,marginBottom:10,marginTop:20 }}>Email :</Text>
                         <TextInput
                             style={[styles.textInput, !emailValdate ? styles.error : null]}
                             onChangeText={(text) => valiDate(text, 'email')}
@@ -98,10 +92,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
-        backgroundColor: '#33FF99'
+        backgroundColor: '#fff'
     },
     headerIcon: {
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         borderRadius: 50,
         padding: 5
     },
@@ -116,13 +109,12 @@ const styles = StyleSheet.create({
         zIndex: 2
     },
     up: {
-        flex: 4,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom:30
     },
     down: {
-        flex: 6,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center'
@@ -136,10 +128,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textInput: {
-        width: '80%',
-        height: 45,
-        borderBottomWidth: 1
-
+        width: 280,
+        height: 50,
+        borderColor:COLORS.primary,
+        borderWidth:1,
+        borderRadius:5,
+        padding: 10,
+        marginBottom:60
     },
     title: {
         color: 'rgb(255,119,34)',
@@ -153,12 +148,11 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(221, 97, 97)'
+        backgroundColor: COLORS.primary
     },
     loginButtonTitle: {
         fontSize: 18,
         color: 'white'
-
     },
     iconEmail: {
         position: 'absolute',
