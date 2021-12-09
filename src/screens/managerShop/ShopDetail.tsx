@@ -20,21 +20,33 @@ export default function ShopDetail(props: any) {
     const productState: ProductState = useSelector((state: State) => state.productReducer);
     const { productShop }: { productShop: ProductModel[] } = productState;
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingPro, setIsLoadingPro] = useState(true);
     const dispatch = useDispatch();
     const { info }: { info: ShopModel } = shopState;
     const [_productShop, setProductShop] = useState<any>();
 
     useEffect(() => {
+        setIsLoading(true);
+        setIsLoadingPro(true);
         dispatch(getShopInfo(shop_id, 1));
         dispatch(getProductsShop(shop_id, page));
     }, [])
 
     useEffect(() => {
-        if (Object.keys(info).length && productShop?.length) {
-            setProductShop(productShop);
+        if (Object.keys(info).length && info.shop_id == shop_id) {
             setIsLoading(false);
         }
     }, [info, productShop])
+    useEffect(() => {
+        if ((productShop?.length || !productShop)) {
+            setProductShop(productShop);
+            if (!productShop) {
+                setIsLoadingPro(false);
+            } else if (productShop[0].shop_id == shop_id) {
+                setIsLoadingPro(false);
+            }
+        }
+    }, [productShop])
 
     const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
         const paddingToBottom = 20;
@@ -56,7 +68,7 @@ export default function ShopDetail(props: any) {
             <HeaderTitle title="Sản phẩm shop" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
 
@@ -79,7 +91,7 @@ export default function ShopDetail(props: any) {
                                 <Text style={{ fontSize: 18, color: '#333' }}>{info.shop_description}</Text>
                             </View>
                         </View>
-                        <View style={{ flex: 1, marginTop: 30, backgroundColor: '#E5E5E5' }}>
+                        <View style={{ flex: 1, paddingTop: 5, backgroundColor: '#E5E5E5' }}>
                             <ScrollView
 
                                 onScroll={({ nativeEvent }) => {
@@ -89,12 +101,27 @@ export default function ShopDetail(props: any) {
                                 }}
                                 scrollEventThrottle={400}
                             >
-                                <View style={styles.productList}>
-                                    {
-                                        _productShop && _productShop.map((product: any, index: number) => <Product key={index} onTap={setStatusProduct} productInfo={product} />)
-
-                                    }
-                                </View>
+                                {
+                                    isLoadingPro ?
+                                        <View style={styles.productList}>
+                                            <Image source={require('../../images/loader.gif')} />
+                                        </View>
+                                        :
+                                        <View style={styles.productList}>
+                                            {
+                                                _productShop ? _productShop.map((product: any, index: number) => <Product key={index} onTap={setStatusProduct} productInfo={product} />)
+                                                    :
+                                                    <Text style={{
+                                                        color: '#111',
+                                                        textAlign: 'center',
+                                                        width: 400,
+                                                        fontSize: 18,
+                                                    }}>
+                                                        Shop chưa có sản phẩm
+                                                    </Text>
+                                            }
+                                        </View>
+                                }
                             </ScrollView>
 
                         </View>

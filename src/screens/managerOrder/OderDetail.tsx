@@ -6,7 +6,7 @@ import HeaderTitle from '../../components/HeaderTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { vnd } from '../../consts/Selector';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { AdminState, OrderModel, OrderState, ShipModel, State, updateStatusOder, updateStatusOrder, UserStage } from '../../redux';
+import { AdminState, OrderModel, OrderState, ShipModel, State, updateStatusOder, updateStatusOrder, UserModel, UserStage } from '../../redux';
 import OderCard from '../../components/OderCard';
 import { useNavigation } from '../../utils/useNavigation';
 
@@ -23,7 +23,7 @@ export default function OderDetail(props: any) {
     const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
     const { ship_price }: { ship_price: ShipModel } = adminSate;
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { dataLogin }: { dataLogin: any } = userState;
+    const { userInfor }: { userInfor: UserModel } = userState;
     let sub_price = 0;
     let total_price = 0;
 
@@ -73,14 +73,14 @@ export default function OderDetail(props: any) {
         <TouchableOpacity style={styles.statusPending} onPress={() => changeStatusOrder(2, _oder.oder_id)}>
             <Text style={styles.txtStatus}>Nhận hàng</Text>
         </TouchableOpacity>,
-        dataLogin.permission_id === 3 ?
+        userInfor.user_permission === 3 ?
             <TouchableOpacity style={styles.statusPending} onPress={() => changeStatusOrder(3, _oder.oder_id)}>
                 <Text style={styles.txtStatus}>Giao ship</Text>
             </TouchableOpacity> :
             <View style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Đã nhận</Text>
             </View>,
-        dataLogin.permission_id === 3 ?
+        userInfor.user_permission === 3 ?
             <View style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Đã giao ship</Text>
             </View> :
@@ -107,7 +107,7 @@ export default function OderDetail(props: any) {
             <HeaderTitle title={`Mã đơn hàng: ${_oder.oder_id}`} />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons style={styles.headerIcon} name="arrow-back" size={28} color="white"/>
+                    <MaterialIcons style={styles.headerIcon} name="arrow-back" size={28} color="white" />
                 </TouchableOpacity>
             </View>
             <View style={styles.container}>
@@ -126,18 +126,18 @@ export default function OderDetail(props: any) {
                     </View>
                     <View style={styles.bill}>
                         <View>
-                            <Text style={{ fontSize: 22,fontWeight:'bold',color:'#111' }}>Tên người nhận:</Text>
-                            <Text style={{ fontSize: 20,color:'#111' }}>{_oder && _oder.oder_customer.user_full_name}</Text>
+                            <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#111' }}>Tên người nhận:</Text>
+                            <Text style={{ fontSize: 20, color: '#111' }}>{_oder && _oder.oder_customer.user_full_name}</Text>
                         </View>
                         <View>
-                            <Text style={{ fontSize: 22,fontWeight:'bold',color:'#111' }}>Địa chỉ:</Text>
-                            <Text style={{ fontSize: 20,color:'#111' }}>{_oder && _oder.oder_address}</Text>
+                            <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#111' }}>Địa chỉ:</Text>
+                            <Text style={{ fontSize: 20, color: '#111' }}>{_oder && _oder.oder_address}</Text>
                         </View>
                         <View>
-                            <Text style={{ fontSize: 22,fontWeight:'bold',color:'#111' }}>Số điện thoại:</Text>
-                            <Text style={{ fontSize: 20,color:'#111' }}>{_oder && _oder.oder_phone}</Text>
+                            <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#111' }}>Số điện thoại:</Text>
+                            <Text style={{ fontSize: 20, color: '#111' }}>{_oder && _oder.oder_phone}</Text>
                         </View>
-                        
+
                         <Text style={styles.txtTotal}>Chi phí</Text>
                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                             <Text style={[styles.priceTitle, { fontSize: 20 }]}>Tổng tiền :</Text>
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         textAlign: 'left',
-        color:'#111'
+        color: '#111'
     },
     btnCheckOut: {
         marginTop: 20,

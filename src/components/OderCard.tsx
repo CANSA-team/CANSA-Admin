@@ -22,7 +22,7 @@ export default function OderCard(props: any) {
             <Text style={styles.txtStatus}>Đã nhận</Text>
         </View>,
         <View style={styles.statusPending}>
-            <Text style={styles.txtStatus}>Giao hàng</Text>
+            <Text style={styles.txtStatus}>Đang giao hàng</Text>
         </View>,
         <View style={styles.statusAccept}>
             <Text style={styles.txtStatus}>Đã giao hàng</Text>

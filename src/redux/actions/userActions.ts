@@ -22,6 +22,12 @@ export interface GetUserInfor {
     readonly type: UserActionType.GET_UER_INFO,
     payload?: UserModel
 }
+
+export interface RemoveUserInfor {
+    readonly type: UserActionType.REMOVE_USER_INFO,
+    payload?: UserModel
+}
+
 export interface GetAllUser {
     readonly type: UserActionType.GET_ALL_USER,
     payload?: UserModel
@@ -32,14 +38,28 @@ export interface EditStatus {
 }
 export interface CreateUser {
     readonly type: UserActionType.CREATE_USER,
-    payload?: UserModel
+    payload?: any
 }
 export interface Logout {
     readonly type: UserActionType.LOGOUT,
     payload?: string
 }
 
-export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | login | GetAllUser | EditStatus | CreateUser | Logout;
+export interface TimeCheckLogin {
+    readonly type: UserActionType.TIME_CHECK_LOGIN,
+    payload?: number
+}
+
+export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | RemoveUserInfor | login | GetAllUser | EditStatus | CreateUser | Logout | TimeCheckLogin;
+
+export const removeUserInfor = () => {
+    return async (dispatch: Dispatch<UserActions>) => {
+        dispatch({
+            type: UserActionType.REMOVE_USER_INFO,
+            payload: {} as UserModel
+        })
+    }
+}
 
 export const checkLogin = () => {
     return async (dispatch: Dispatch<UserActions>) => {
@@ -51,9 +71,14 @@ export const checkLogin = () => {
                     payload: 'Product list error'
                 })
             } else {
+                var time = Math.floor(Date.now() + 1000000)
                 dispatch({
                     type: UserActionType.CHECK_LOGIN,
                     payload: response.data.data
+                })
+                dispatch({
+                    type: UserActionType.TIME_CHECK_LOGIN,
+                    payload: time
                 })
             }
 
@@ -82,7 +107,7 @@ export const login = (email: string, password: string) => {
             } else {
                 dispatch({
                     type: UserActionType.LOGIN,
-                    payload: response.data.data
+                    payload: { data: response.data.data, time: Math.floor(Date.now()) }
                 })
             }
         } catch (error) {
@@ -94,7 +119,7 @@ export const login = (email: string, password: string) => {
 
     }
 }
-export const GetAllUser = (option: string, page: number, numPage: number) => {
+export const GetAllUser = (option: string = 'asc_id', page: number = 0, numPage: number = 15) => {
     return async (dispatch: Dispatch<UserActions>) => {
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/get/${option}/${page}/${numPage}`)
@@ -147,6 +172,7 @@ export const CreateUser = (premisss: string, name: string, password: string, ema
     return async (dispatch: Dispatch<UserActions>) => {
         try {
             const response = await axios.get<any>(`${cansa[1]}/api/user/create/${premisss}/${name}/${password}/${email}/e4611a028c71342a5b083d2cbf59c494`)
+            console.log(response.data);
             if (!response) {
                 dispatch({
                     type: UserActionType.ON_LOGIN_ERROR,
@@ -156,7 +182,7 @@ export const CreateUser = (premisss: string, name: string, password: string, ema
                 // save our location in local storage
                 dispatch({
                     type: UserActionType.CREATE_USER,
-                    payload: response.data.data
+                    payload: response.data
                 })
             }
         } catch (error) {

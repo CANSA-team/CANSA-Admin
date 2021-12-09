@@ -9,6 +9,7 @@ const initialState: UserStage = {
     error: undefined,
     dataLogin: undefined,
     userAll: undefined,
+    timeSampCheckLogin: 0,
     checkEditStatus: undefined,
     dataCreateUser: undefined,
 }
@@ -20,12 +21,18 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
                 ...state,
                 check: action.payload
             }
+        case UserActionType.TIME_CHECK_LOGIN:
+            return {
+                ...state,
+                timeSampCheckLogin: action.payload
+            }
         case UserActionType.LOGIN:
             return {
                 ...state,
                 dataLogin: action.payload
             }
         case UserActionType.GET_UER_INFO:
+        case UserActionType.REMOVE_USER_INFO:
             return {
                 ...state,
                 userInfor: action.payload

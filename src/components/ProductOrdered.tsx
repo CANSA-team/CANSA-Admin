@@ -6,7 +6,7 @@ import COLORS from '../consts/Colors';
 import { State } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 import { SlugStr } from './../consts/Selector';
-import { OrderModel, UserStage } from './../redux/models/index';
+import { OrderModel, UserStage, UserModel } from './../redux/models/index';
 
 interface ProductOrdereProps {
     oder: OrderModel;
@@ -17,7 +17,7 @@ export default function ProductOrdered(props: any) {
     const { oder, changeStatusOrder }: ProductOrdereProps = props;
     const { navigate } = useNavigation();
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { dataLogin }: { dataLogin: any } = userState;
+    const { userInfor }: { userInfor: UserModel } = userState;
 
     const OderStatus = [
         <>
@@ -26,14 +26,14 @@ export default function ProductOrdered(props: any) {
         <TouchableOpacity onPress={() => changeStatusOrder(2, oder.oder_id)} style={styles.statusPending}>
             <Text style={styles.txtStatus}>Nhận hàng</Text>
         </TouchableOpacity>,
-        dataLogin.permission_id === 3 ?
+        userInfor.user_permission === 3 ?
             <TouchableOpacity onPress={() => changeStatusOrder(3, oder.oder_id)} style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Giao ship</Text>
             </TouchableOpacity> :
             <View style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Đã nhận</Text>
             </View>,
-        dataLogin.permission_id === 3 ?
+        userInfor.user_permission === 3 ?
             <View style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Đã giao ship</Text>
             </View> :

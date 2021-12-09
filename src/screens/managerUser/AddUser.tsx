@@ -11,22 +11,35 @@ import {
 import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux'
-import {  State,  UserStage } from '../../redux'
-import {  CreateUser } from '../../redux/actions/userActions'
+import { State, UserStage } from '../../redux'
+import { CreateUser } from '../../redux/actions/userActions'
 import COLORS from '../../consts/Colors';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function AddUser(props: any) {
+    let temp_data = [
+        {
+            value: "3",
+            label: "Admin"
+        },
+        {
+            value: "4",
+            label: "Shiper"
+        },
+    ]
+
     const { navigation } = props;
     const [selectedValue, setSelectedValue] = useState("");
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
-    const [messger, setMessger] = useState('')
+    const [isSend, setIsSend] = useState(false)
+    const [data, setData] = useState(temp_data);
 
     const [emailValdate, setEmailValdate] = useState(true)
     const [password, setPassword] = useState('')
     const [passwordValdate, setPasswordValdate] = useState(true)
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { dataCreateUser }: { check: boolean, dataLogin: any, dataCreateUser:any } = userState;
+    const { dataCreateUser }: { check: boolean, dataLogin: any, dataCreateUser: any } = userState;
     const dispatch = useDispatch();
 
     const valiDate = (text: any, type: any) => {
@@ -53,30 +66,32 @@ export default function AddUser(props: any) {
             }
         }
     }
-    const createUserAccount = ()=>{
-        if(selectedValue!=="" && name !==''){
-            dispatch(CreateUser(selectedValue,name,password,email));
-        }else{
-            Alert.alert('Thông Báo','Vui Lòng chọn thông tin đầy đủ!!')
+    const createUserAccount = () => {
+        setIsSend(true);
+        if (selectedValue !== "" && name !== '') {
+            dispatch(CreateUser(selectedValue, name, password, email));
+        } else {
+            Alert.alert('Thông Báo', 'Vui Lòng chọn thông tin đầy đủ!!')
         }
     }
-    useEffect(()=>{
-        if(dataCreateUser!==undefined && dataCreateUser !== null){
-            console.log(dataCreateUser)
-            var str = `ID:${dataCreateUser.user_id} \n Name:${dataCreateUser.user_name} \n EMAIL:${email} \n PASSWORD:${dataCreateUser.user_password}`;
-            setMessger(str)
+    useEffect(() => {
+
+        if (dataCreateUser?.data) {
+            Alert.alert('Thông Báo', `ID:${dataCreateUser?.data?.user_id} \n Name:${dataCreateUser?.data?.user_name} \n EMAIL:${email} \n PASSWORD:${dataCreateUser?.data?.user_password}`, [{ text: 'OK', onPress: () => setIsSend(false) }]);
+        } else if (dataCreateUser?.message && isSend) {
+            Alert.alert('Thông Báo', dataCreateUser.message, [{ text: 'OK', onPress: () => setIsSend(false) }]);
         }
-    },[dataCreateUser])
+    }, [dataCreateUser])
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Cấp Tài Khoản" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
             <View style={styles.down}>
-            <View style={styles.textInputContainer}>
+                <View style={styles.textInputContainer}>
                     <TextInput
                         style={[styles.textInput, !emailValdate ? styles.error : null]}
                         textContentType='emailAddress'
@@ -107,16 +122,15 @@ export default function AddUser(props: any) {
                     >
                     </TextInput>
                 </View>
-                <View style={{borderColor:'#ccc',borderWidth:1,marginBottom:20}}>
-                    <Picker
-                        selectedValue={selectedValue}
-                        style={{ height: 50, width: 150 }}
-                        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                    >
-                        <Picker.Item label="---Chọn---" value="" />
-                        <Picker.Item label="Admin" value="3" />
-                        <Picker.Item label="Shiper" value="4" />
-                    </Picker>
+                <View style={{ borderColor: '#ccc', borderWidth: 1, marginBottom: 20, width: '50%' }}>
+                    <RNPickerSelect
+                        placeholder={{ label: `---Chọn---`, value: "" }}
+                        style={{ ...pickerSelectStyles, placeholder: { color: '#acabab' } }}
+                        onValueChange={(data) => {
+                            setSelectedValue(data)
+                        }}
+                        items={data}
+                    />
                 </View>
 
                 <TouchableOpacity style={styles.loginButton}
@@ -124,9 +138,6 @@ export default function AddUser(props: any) {
                 >
                     <Text style={styles.loginButtonTitle}>Tạo tài Khoản</Text>
                 </TouchableOpacity>
-                <View style={styles.textInputContainer}>
-                    <Text>{messger}</Text>
-                </View>
             </View>
 
         </View>
@@ -164,7 +175,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     down: {
-        marginTop:30,
+        marginTop: 30,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center'
@@ -178,11 +189,11 @@ const styles = StyleSheet.create({
     textInput: {
         width: 280,
         height: 50,
-        borderColor:COLORS.primary,
-        borderWidth:1,
-        borderRadius:5,
+        borderColor: COLORS.primary,
+        borderWidth: 1,
+        borderRadius: 5,
         padding: 10
-      },
+    },
     loginButton: {
         width: 300,
         height: 45,
@@ -246,3 +257,17 @@ const styles = StyleSheet.create({
         borderWidth: 1
     }
 })
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 20,
+        borderRadius: 30,
+        color: 'black',
+        padding: 25
+    },
+    inputAndroid: {
+        fontSize: 20,
+        borderRadius: 30,
+        color: 'black',
+        padding: 25
+    },
+});

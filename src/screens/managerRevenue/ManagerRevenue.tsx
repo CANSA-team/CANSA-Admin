@@ -7,6 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { AdminState, getRevenue, RevenueModel, State } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
 
 interface DataChar {
     value: number,
@@ -16,11 +17,18 @@ interface DataChar {
 
 
 export default function ManagerRevenue(props: any) {
+    let temp = [
+        {
+            value: 0,
+            label: " "
+        }
+    ]
     const { navigation } = props;
     const [lineData, setLineData] = useState<DataChar[]>([]);
     const adminState: AdminState = useSelector((state: State) => state.adminReducer);
     const { revenue_list }: { revenue_list: RevenueModel[] } = adminState;
     const dispatch = useDispatch();
+    const [revenueYear, setRevenueYear] = useState(temp);
 
     const month = (arr: RevenueModel[]) => {
         const result = arr.sort((a: RevenueModel, b: RevenueModel) => a.revenue_year - b.revenue_year == 0 ? a.revenue_month - b.revenue_month : a.revenue_year - b.revenue_year);
@@ -34,25 +42,52 @@ export default function ManagerRevenue(props: any) {
     useEffect(() => {
         if (revenue_list.length) {
             const sortM = month(revenue_list);
-            let dataLine: DataChar[] = sortM.map((item: RevenueModel) => {
-                const money = item.revenue_money / 1000000;
-                return {
-                    value: money,
-                    dataPointText: money.toString(),
-                    label: item.revenue_month.toString()
+            let dataLine: DataChar[] = [];
+            for (const key in sortM) {
+                const money = sortM[key].revenue_money / 1000000;
+                if (sortM[key].revenue_year == revenue_list[revenue_list.length - 1].revenue_year) {
+                    dataLine = [...dataLine,
+                    {
+                        value: money,
+                        dataPointText: money.toString(),
+                        label: sortM[key].revenue_month.toString()
+                    }
+                    ]
                 }
-            })
+            }
             dataLine = [{ value: 0 }, ...dataLine];
+            let tempArr: Array<any> = [];
+
+
+            for (let i = revenue_list.length - 1; i >= 0; i--) {
+                if (!checkYear(tempArr, Number(i), revenue_list)) {
+                    tempArr = [...tempArr, {
+                        value: sortM[i].revenue_year,
+                        label: `Năm ${sortM[i].revenue_year}`
+                    }];
+                }
+
+            }
             setLineData(dataLine)
+            setRevenueYear(tempArr);
         }
     }, [revenue_list])
+
+    const checkYear = (tempArr: Array<any>, item: number, sortM: Array<any>) => {
+        for (const i of tempArr) {
+            if (i.label === `Năm ${sortM[item].revenue_year}`) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Doanh thu của shop"></HeaderTitle>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
 
@@ -60,10 +95,28 @@ export default function ManagerRevenue(props: any) {
                 lineData.length ?
                     <>
                         <View style={{ backgroundColor: '#Fff', padding: 12 }}>
-                            <TouchableOpacity style={styles.contactContainer}>
-                                <AntDesign name="calendar" size={20}></AntDesign>
-                                <Text style={{ marginHorizontal: 8 }}>Năm {revenue_list[0].revenue_year}</Text>
-                            </TouchableOpacity>
+                            <RNPickerSelect
+                                placeholder={{ label: `Năm ${revenue_list[revenue_list.length - 1].revenue_year}`, value: revenue_list[revenue_list.length - 1].revenue_year }}
+                                style={{ ...pickerSelectStyles, placeholder: { color: '#acabab' } }}
+                                onValueChange={(data) => {
+                                    const sortM = month(revenue_list);
+                                    let dataLine: DataChar[] = [];
+                                    for (const key in sortM) {
+                                        const money = sortM[key].revenue_money / 1000000;
+                                        if (sortM[key].revenue_year == data) {
+                                            dataLine = [...dataLine, {
+                                                value: money,
+                                                dataPointText: money.toString(),
+                                                label: sortM[key].revenue_month.toString()
+                                            }
+                                            ]
+                                        }
+                                    }
+                                    dataLine = [{ value: 0 }, ...dataLine];
+                                    setLineData(dataLine)
+                                }}
+                                items={revenueYear}
+                            />
                         </View>
 
                         <View>
@@ -146,5 +199,21 @@ const styles = StyleSheet.create({
         left: 5,
         right: 0,
         zIndex: 2
+    },
+});
+
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 20,
+        borderRadius: 30,
+        color: 'black',
+        padding: 25
+    },
+    inputAndroid: {
+        fontSize: 20,
+        borderRadius: 30,
+        color: 'black',
+        padding: 25
     },
 });

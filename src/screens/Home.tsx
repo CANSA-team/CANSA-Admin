@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeaderBar from '../components/HeaderBar';
 import Menu from '../components/Menu';
 import COLORS from '../consts/Colors';
-import { AccessModel, AdminState, getAccess, getShip, State, UserStage } from '../redux';
+import { AccessModel, AdminState, getAccess, getShip, State, UserModel, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 
 
@@ -14,7 +14,7 @@ export default function Home() {
     const { access_list }: { access_list: AccessModel[] } = adminSate;
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { dataLogin }: { dataLogin: any } = userState;
+    const { userInfor }: { userInfor: UserModel } = userState;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function Home() {
                         <HeaderBar />
                         <View style={styles.viewShop}>
                             <View style={{ flex: 1 }}>
-                                <Image style={styles.imgShop} source={{ uri: 'https://www.elleman.vn/wp-content/uploads/2020/06/03/179235/cover-logo-thuong-hieu-elle-man-0620-logoworks.png' }} />
+                                <Image style={styles.imgShop} source={require('../images/icon.png')} />
                             </View>
                             <View style={styles.shopContainer}>
                                 <Text style={{ fontSize: 20, color: "#222", fontWeight: 'bold' }}>Quản lí các hoạt động của App</Text>
@@ -54,7 +54,7 @@ export default function Home() {
                         <Text style={styles.txtAction}>Thao tác :</Text>
                         <View style={styles.menuList}>
                             {
-                                dataLogin.permission_id === 4 ?
+                                userInfor.user_permission === 4 ?
                                     <Menu onTab={() => navigate('Ordered')} icon="inbox" title="Quản lí order" description="Quản lí các sản phẩm người dùng đã đặt" />
                                     :
                                     <>

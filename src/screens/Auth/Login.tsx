@@ -13,55 +13,57 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '../../utils/useNavigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from '../../redux'
-import { UserStage } from '../../redux'
+import { State, UserModel } from '../../redux'
+import { UserStage, getUserInfo } from '../../redux'
 import { checkLogin, login } from '../../redux/actions/userActions'
 import COLORS from '../../consts/Colors'
 
 export default function Login(props: any) {
   const { navigate } = useNavigation();
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('')
   const [checkStatus, setCheckStatus] = useState(false)
   const [emailValdate, setEmailValdate] = useState(true)
+  const [isSend, setIsSend] = useState<boolean>(false)
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
   const userState: UserStage = useSelector((state: State) => state.userReducer);
-  const { check, dataLogin }: { check: boolean, dataLogin: any } = userState;
+  const { check, dataLogin, userInfor }: { check: boolean, dataLogin: any, userInfor: UserModel } = userState;
 
   const dispatch = useDispatch();
 
   const loginBtn = () => {
-    // dispatch(login('natswarchuan@gmail.com', 'Chuan1999'))
+    setIsSend(true);
     if (email != '' && password != '') {
       dispatch(login(email, password));
     } else {
+      setIsSend(false);
       Alert.alert('Thông báo', 'Email hoặc password không hợp lệ!!')
     }
   }
-  useEffect(()=>{
-    dispatch(checkLogin())
-  },[dataLogin])
-  useEffect(() => {
-    if (check === true) {
-      if (dataLogin !== undefined && dataLogin !== null) {
-        if (dataLogin.permission_id === 3 || dataLogin.permission_id === 4) {
-          navigate('homeStack')
-        } else {
-          setStatus('Không đủ quyền hạn')
-          setCheckStatus(true)
-        }
-      } else if (dataLogin == undefined && dataLogin == null) {
-        setStatus('Không đúng mật khẩu')
-      }
-    }
-  }, [dataLogin,check])
 
   useEffect(() => {
-    if (status !== '') {
-      Alert.alert('Thông Báo', status)
+    if (dataLogin) {
+      dispatch(getUserInfo());
     }
-  }, [status])
+  }, [dataLogin])
+
+  useEffect(() => {
+    if (Object.keys(userInfor).length && isSend) {
+      if (userInfor.user_permission === 3 || userInfor.user_permission === 4) {
+        setIsSend(false);
+        dispatch(checkLogin())
+        navigate('homeStack')
+      } else {
+        Alert.alert('Thông Báo', 'Không đủ quyền hạn')
+        setCheckStatus(true)
+        setIsSend(false);
+      }
+    } else if (!userInfor && isSend) {
+      Alert.alert('Thông Báo', 'Không đúng mật khẩu')
+      setIsSend(false);
+    }
+  }, [userInfor, isSend])
+
   const valiDate = (text: any, type: any) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
@@ -86,52 +88,56 @@ export default function Login(props: any) {
       }
     }
   }
-  const Divider = (props: any) => {
-    return <View {...props}>
-      <View style={styles.line}></View>
-      <Text style={styles.textOR}>OR</Text>
-      <View style={styles.line}></View>
-    </View>
-  }
 
   return (
     //Donot dismis Keyboard when click outside of TextInput
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        
-        <View style={styles.up}>
-          <Image style={{width:150,height:150}} source={require('../../images/icon.png')} />
-        </View>
+        {
+          isSend ?
+            <View style={styles.up}>
+              <Image style={{ width: 100, height: 100 }} source={require('../../images/icon.png')} />
+              <Text style={styles.title}>
+                Đang Xác Minh
+              </Text>
+            </View>
+            :
+            <>
+              <View style={styles.up}>
+                <Image style={{ width: 150, height: 150 }} source={require('../../images/icon.png')} />
+              </View>
 
-        <View style={styles.down}>
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={[styles.textInput, !emailValdate ? styles.error : null]}
-              textContentType='emailAddress'
-              keyboardType='email-address'
-              placeholder="Nhập e-mail"
-              onChangeText={(text) => valiDate(text, 'email')}
-            >
-            </TextInput>
-          </View>
+              <View style={styles.down}>
+                <View style={styles.textInputContainer}>
+                  <TextInput
+                    style={[styles.textInput, !emailValdate ? styles.error : null]}
+                    textContentType='emailAddress'
+                    keyboardType='email-address'
+                    placeholder="Nhập e-mail"
+                    onChangeText={(text) => valiDate(text, 'email')}
+                  >
+                  </TextInput>
+                </View>
 
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={[styles.textInput, !passwordValdate ? styles.error : null]}
-              placeholder="Nhập mật khẩu"
-              secureTextEntry={true}
-              onChangeText={(text) => valiDate(text, 'password')}
-            >
-            </TextInput>
-          </View>
+                <View style={styles.textInputContainer}>
+                  <TextInput
+                    style={[styles.textInput, !passwordValdate ? styles.error : null]}
+                    placeholder="Nhập mật khẩu"
+                    secureTextEntry={true}
+                    onChangeText={(text) => valiDate(text, 'password')}
+                  >
+                  </TextInput>
+                </View>
 
-          <TouchableOpacity style={styles.loginButton}
-            onPress={() => loginBtn()}
-          >
-            <Text style={styles.loginButtonTitle}>Đăng nhập</Text>
-          </TouchableOpacity>
+                <TouchableOpacity style={styles.loginButton}
+                  onPress={() => loginBtn()}
+                >
+                  <Text style={styles.loginButtonTitle}>Đăng nhập</Text>
+                </TouchableOpacity>
 
-        </View>
+              </View>
+            </>
+        }
       </View>
     </TouchableWithoutFeedback>
   )
@@ -152,8 +158,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   up: {
-    marginTop:50,
-    marginBottom:20,
+    marginTop: 50,
+    marginBottom: 20,
     flex: 3,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -180,9 +186,9 @@ const styles = StyleSheet.create({
   textInput: {
     width: 280,
     height: 50,
-    borderColor:COLORS.primary,
-    borderWidth:1,
-    borderRadius:5,
+    borderColor: COLORS.primary,
+    borderWidth: 1,
+    borderRadius: 5,
     padding: 10
   },
   loginButton: {

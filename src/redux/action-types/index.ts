@@ -47,6 +47,8 @@ export enum OrderActionType {
     ON_ORDER_ERROR = 'ON_ORDER_ERROR'
 }
 export enum UserActionType {
+    TIME_CHECK_LOGIN = 'TIME_CHECK_LOGIN',
+    REMOVE_USER_INFO = 'REMOVE_USER_INFO',
     LOGIN = 'LOGIN',
     LOGOUT = 'LOGOUT',
     CHECK_LOGIN = 'CHECK_LOGIN',

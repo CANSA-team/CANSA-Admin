@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react'
+import React, { useState } from 'react'
 import {
     StyleSheet,
     Text,
@@ -8,68 +8,82 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Alert,
+    Image,
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
 import { useNavigation } from '../../utils/useNavigation'
 import { cansa } from '../../consts/Selector'
+import COLORS from '../../consts/Colors'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/actions/userActions'
+import { State, UserStage } from '../../redux'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function ChangePassword(props:any) {
+export default function ChangePassword(props: any) {
     const { navigate } = useNavigation();
     const [password, setPassword] = useState('')
     const [passwordValdate, setPasswordValdate] = useState(true)
-    const {navigation,route} = props;
-    const { getParam, goBack } = navigation;
+    const userState: UserStage = useSelector((state: State) => state.userReducer);
+    const { check }: { check: boolean } = userState;
+    const { navigation } = props;
+    const { getParam } = navigation;
+    const dispatch = useDispatch();
+
     const valiDate = (text: any, type: any) => {
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
         if (type == 'password') {
             if (passwordRegex.test(text)) {
                 setPassword(text)
                 setPasswordValdate(true)
-                console.warn('Password hợp lệ')
             }
             else {
                 setPasswordValdate(false)
-                console.warn('Password chưa hợp lệ gồm 6 kí tự ,chữ cái hoa đầu')
             }
         }
     }
-    const changePasswordBtn = ()=>{
+
+    const changePasswordBtn = () => {
         let email = getParam('email')
-        if(password){
-            axios.get(`${cansa[1]}/api/user/forgot/password/center/${email}/${password}`).then((res)=>{  
-                if(res.data.data){
-                    Alert.alert('Thông Báo',res.data.message);
-                    navigate('Login')
-                }else{
-                    Alert.alert('Thông Báo',res.data.message);
+        if (password) {
+            axios.get(`${cansa[1]}/api/user/forgot/password/center/${email}/${password}`).then((res) => {
+                if (res.data.data) {
+                    Alert.alert('Thông Báo', res.data.message);
+                    if (check) {
+                        dispatch(logout());
+                    }
+                    navigate('Login');
+                } else {
+                    Alert.alert('Thông Báo', res.data.message);
                 }
-            }) 
-        }else{
+            })
+        } else {
             Alert.alert('Thông báo', 'Email không giống nhau hoặc không đúng định dạng!!')
 
         }
-        
+
     }
+
     const Divider = (props: any) => {
         return <View {...props}>
             <View style={styles.line}></View>
-            <Text style={styles.textOR}>OR</Text>
+            <Text style={styles.textOR}>HOẶC</Text>
             <View style={styles.line}></View>
         </View>
     }
+
     return (
-        //Donot dismis Keyboard when click outside of TextInput
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons style={styles.headerIcon} name="arrow-back" size={30} color="black" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.up}>
-                    <Ionicons
-                        name="ios-speedometer"
-                        size={100}
-                        color={'rgb(221, 97, 97)'}>
-                    </Ionicons>
+                    <Image style={{ width: 150, height: 150 }} source={require('../../images/icon.png')} />
                     <Text style={styles.title}>
-                        Change Password
+                        Đổi Mật Khẩu
                     </Text>
                 </View>
                 <View style={styles.down}>
@@ -77,7 +91,7 @@ export default function ChangePassword(props:any) {
                         <TextInput
                             style={[styles.textInput, !passwordValdate ? styles.error : null]}
                             onChangeText={(text) => valiDate(text, 'password')}
-                            placeholder="Import password new"
+                            placeholder="Nhập mật khẩu"
                             secureTextEntry={true}
                         >
                         </TextInput>
@@ -86,24 +100,16 @@ export default function ChangePassword(props:any) {
                         <TextInput
                             style={[styles.textInput, !passwordValdate ? styles.error : null]}
                             onChangeText={(text) => valiDate(text, 'password')}
-                            placeholder="Confirm password new"
+                            placeholder="Nhập lại mật khẩu"
                             secureTextEntry={true}
                         >
                         </TextInput>
                     </View>
 
                     <TouchableOpacity style={styles.retrievalButton}
-                    onPress = {changePasswordBtn}
+                        onPress={changePasswordBtn}
                     >
-                        <Text style={styles.retrievalButtonTitle}>Recuperate</Text>
-                    </TouchableOpacity>
-
-                    <Divider style={styles.divider}></Divider>
-
-                    <TouchableOpacity style={styles.forgotButton}>
-                        <Text style={styles.navButtonText}>
-                            Have an account? Sign In
-                        </Text>
+                        <Text style={styles.retrievalButtonTitle}>Xác nhận</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -119,9 +125,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
-        backgroundColor: '#33FF99'
-
-
+        backgroundColor: '#fff'
     },
     up: {
         flex: 3,
@@ -147,9 +151,28 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'rgba(255,255,255,0.2)'
     },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5,
+        position: 'absolute',
+        top: 33,
+        left: 5,
+        right: 0,
+        zIndex: 2
+    },
+    headerIcon: {
+
+        borderRadius: 50,
+        padding: 5
+    },
     textInput: {
         width: 280,
-        height: 45
+        height: 50,
+        borderColor: COLORS.primary,
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10
     },
     retrievalButton: {
         width: 300,

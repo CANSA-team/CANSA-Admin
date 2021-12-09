@@ -3,6 +3,7 @@ import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import COLORS from '../consts/Colors';
+import Landing from '../screens/Landing';
 import Home from '../screens/Home';
 import Account from '../screens/Account';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -35,6 +36,17 @@ const DIMENS = {
     fontNameCategory: 15
 }
 const switchNavigator = createSwitchNavigator({
+    landingStack: {
+        screen: createStackNavigator({
+            Landing: Landing,
+        }, {
+            defaultNavigationOptions: {
+                headerShown: false
+            }
+        }),
+
+    },
+
     loginStack: {
         screen: createStackNavigator({
             Login,

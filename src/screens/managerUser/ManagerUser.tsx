@@ -4,8 +4,8 @@ import HeaderTitle from '../../components/HeaderTitle'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/Colors';
 import { useDispatch, useSelector } from 'react-redux'
-import {  State, UserStage } from '../../redux'
-import {  GetAllUser,EditStatus } from '../../redux/actions/userActions'
+import { State, UserStage } from '../../redux'
+import { GetAllUser, EditStatus } from '../../redux/actions/userActions'
 
 export default function ManagerUser(props: any) {
     const { navigation } = props;
@@ -13,33 +13,37 @@ export default function ManagerUser(props: any) {
     const [data, setData] = useState([]);
     const [isLoadMore, setisLoadMore] = useState(false)
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { userAll,checkEditStatus }: { userAll: any,checkEditStatus:any } = userState;
+    const { userAll, checkEditStatus }: { userAll: any, checkEditStatus: any } = userState;
     const dispatch = useDispatch();
-    
+
+    useEffect(() => {
+        dispatch(GetAllUser())
+    }, [])
+
     useEffect(() => {
         dispatch(GetAllUser('asc_id', page, 15))
         setisLoadMore(false)
     }, [page])
 
     useEffect(() => {
-        if (userAll !== undefined) {
-            let test:any = [...data, ...userAll]
+        if (userAll) {
+            let test: any = [...data, ...userAll]
             setData(test)
-        } 
+        }
     }, [userAll])
-    useEffect(()=>{
-        if(checkEditStatus!==undefined){
-            if(checkEditStatus.ischeck === true){
-                var temp:any = [...data];
-                temp.forEach((element:any) => {
-                    if(element.user_id === checkEditStatus.id){
+    useEffect(() => {
+        if (checkEditStatus !== undefined) {
+            if (checkEditStatus.ischeck === true) {
+                var temp: any = [...data];
+                temp.forEach((element: any) => {
+                    if (element.user_id === checkEditStatus.id) {
                         element.status = checkEditStatus.status
                     }
                 });
                 setData(temp)
             }
         }
-    },[checkEditStatus])
+    }, [checkEditStatus])
 
     const isStatus = (status: number, id: number) => {
         const messenger = status ? "Xác nhận mở khoá tài khoản?" : "Xác nhận khoá tài khoản?"
@@ -47,27 +51,29 @@ export default function ManagerUser(props: any) {
             "Thông báo!",
             messenger,
             [
-                { text: "Xác nhận", onPress: () => {
-                    dispatch(EditStatus(id,status))
-                } },
+                {
+                    text: "Xác nhận", onPress: () => {
+                        dispatch(EditStatus(id, status))
+                    }
+                },
                 { text: "Huỷ" }
             ]
         );
     }
-    
+
     const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
         const paddingToBottom = 20;
         return layoutMeasurement.height + contentOffset.y >=
             contentSize.height - paddingToBottom;
     };
 
-    
+
     return (
         <View style={{ flex: 1 }}>
             <HeaderTitle title="Quản lí người dùng" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
 

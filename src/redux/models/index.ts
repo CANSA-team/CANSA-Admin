@@ -51,6 +51,7 @@ export interface ShopModel {
     shop_avatar_id: number;
 }
 export interface UserModel {
+    user_permission: number;
     user_id: number;
     user_phone: string;
     user_email: string;
@@ -184,6 +185,7 @@ export interface OrderState {
 
 export interface UserStage {
     check: boolean;
+    timeSampCheckLogin: number;
     userInfor: UserModel;
     error: string | undefined;
     dataLogin: any;
