@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import { checkLogin, getUserInfo, logout, ShopModel, ShopState, State, UserModel, UserStage } from '../redux';
+import { checkLogin, getUserInfo, getUserPermissions, logout, ShopModel, ShopState, State, UserModel, UserPermissionsModel, UserStage } from '../redux';
 import { useNavigation } from '../utils/useNavigation';
 import COLORS from '../consts/Colors';
 
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function Lauding() {
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { check, userInfor, timeSampCheckLogin }: { check: boolean, userInfor: UserModel, timeSampCheckLogin: number } = userState;
+    const { check, userInfor, timeSampCheckLogin, userPermission }: { check: boolean, userInfor: UserModel, timeSampCheckLogin: number, userPermission: UserPermissionsModel } = userState;
     const shopSate: ShopState = useSelector((state: State) => state.shopReducer);
     const { info }: { info: ShopModel } = shopSate;
     const [getData, setData] = useState<boolean>(false);
@@ -29,8 +29,8 @@ export default function Lauding() {
     }, [timeSampCheckLogin])
 
     useEffect(() => {
-        if (Object.keys(userInfor).length) {
-            if (userInfor.user_permission === 3 || userInfor.user_permission === 4) {
+        if (Object.keys(userPermission).length) {
+            if (userPermission.permission_id === 3 || userPermission.permission_id === 4) {
                 navigate('homeStack')
             } else {
                 Alert.alert('Thông Báo', 'Tài khoản bạn không đủ quyền hạn', [
@@ -43,6 +43,12 @@ export default function Lauding() {
                         },
                     },]);
             }
+        }
+    }, [userPermission])
+
+    useEffect(() => {
+        if (Object.keys(userInfor).length) {
+            dispatch(getUserPermissions());
         }
     }, [userInfor])
 

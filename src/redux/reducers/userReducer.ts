@@ -1,6 +1,6 @@
 import { SliderActionType, UserActionType } from "../action-types";
 import { UserActions } from "../actions/userActions";
-import { UserStage, UserModel } from "../models";
+import { UserStage, UserModel, UserPermissionsModel } from "../models";
 
 
 const initialState: UserStage = {
@@ -12,6 +12,7 @@ const initialState: UserStage = {
     timeSampCheckLogin: 0,
     checkEditStatus: undefined,
     dataCreateUser: undefined,
+    userPermission: {} as UserPermissionsModel,
 }
 
 const userReducer = (state: UserStage = initialState, action: UserActions) => {
@@ -61,6 +62,11 @@ const userReducer = (state: UserStage = initialState, action: UserActions) => {
             return {
                 ...state,
                 error: action.payload
+            }
+        case UserActionType.GET_PERMISSIONS:
+            return {
+                ...state,
+                userPermission: action.payload
             }
         default:
             return state;

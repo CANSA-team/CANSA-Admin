@@ -50,7 +50,12 @@ export interface TimeCheckLogin {
     payload?: number
 }
 
-export type UserActions = CheckLogin | UserErrorAction | GetUserInfor | RemoveUserInfor | login | GetAllUser | EditStatus | CreateUser | Logout | TimeCheckLogin;
+export interface GetPermissions {
+    readonly type: UserActionType.GET_PERMISSIONS,
+    payload?: number
+}
+
+export type UserActions = GetPermissions | CheckLogin | UserErrorAction | GetUserInfor | RemoveUserInfor | login | GetAllUser | EditStatus | CreateUser | Logout | TimeCheckLogin;
 
 export const removeUserInfor = () => {
     return async (dispatch: Dispatch<UserActions>) => {
@@ -238,6 +243,31 @@ export const logout = () => {
                 dispatch({
                     type: UserActionType.LOGOUT,
                     payload: status
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: UserActionType.ON_LOGIN_ERROR,
+                payload: error
+            })
+        }
+
+    }
+}
+
+export const getUserPermissions = () => {
+    return async (dispatch: Dispatch<UserActions>) => {
+        try {
+            const response = await axios.get<any>(`${cansa[1]}/api/user/loginUser`)
+            if (!response) {
+                dispatch({
+                    type: UserActionType.ON_LOGIN_ERROR,
+                    payload: 'Product list error'
+                })
+            } else {
+                dispatch({
+                    type: UserActionType.GET_PERMISSIONS,
+                    payload: response.data.data
                 })
             }
         } catch (error) {

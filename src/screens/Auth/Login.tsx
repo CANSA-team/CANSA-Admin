@@ -13,9 +13,9 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '../../utils/useNavigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { State, UserModel } from '../../redux'
+import { State, UserModel, UserPermissionsModel } from '../../redux'
 import { UserStage, getUserInfo } from '../../redux'
-import { checkLogin, login } from '../../redux/actions/userActions'
+import { checkLogin, login, getUserPermissions } from '../../redux/actions/userActions'
 import COLORS from '../../consts/Colors'
 
 export default function Login(props: any) {
@@ -27,7 +27,7 @@ export default function Login(props: any) {
   const [password, setPassword] = useState('')
   const [passwordValdate, setPasswordValdate] = useState(true)
   const userState: UserStage = useSelector((state: State) => state.userReducer);
-  const { check, dataLogin, userInfor }: { check: boolean, dataLogin: any, userInfor: UserModel } = userState;
+  const { check, dataLogin, userInfor, userPermission }: { check: boolean, dataLogin: any, userInfor: UserModel, userPermission: UserPermissionsModel } = userState;
 
   const dispatch = useDispatch();
 
@@ -48,8 +48,9 @@ export default function Login(props: any) {
   }, [dataLogin])
 
   useEffect(() => {
-    if (Object.keys(userInfor).length && isSend) {
-      if (userInfor.user_permission === 3 || userInfor.user_permission === 4) {
+    if (Object.keys(userPermission).length && isSend) {
+      console.log(userPermission)
+      if (userPermission.permission_id === 3 || userPermission.permission_id === 4) {
         setIsSend(false);
         dispatch(checkLogin())
         navigate('homeStack')
@@ -58,6 +59,12 @@ export default function Login(props: any) {
         setCheckStatus(true)
         setIsSend(false);
       }
+    }
+  }, [userPermission])
+
+  useEffect(() => {
+    if (Object.keys(userInfor).length && isSend) {
+      dispatch(getUserPermissions());
     } else if (!userInfor && isSend) {
       Alert.alert('Thông Báo', 'Không đúng mật khẩu')
       setIsSend(false);

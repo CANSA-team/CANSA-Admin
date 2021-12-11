@@ -192,4 +192,10 @@ export interface UserStage {
     userAll: any;
     checkEditStatus: any;
     dataCreateUser: any;
+    userPermission: any;
+}
+
+export interface UserPermissionsModel {
+    permission_id: Number;
+    user_id: Number;
 }
