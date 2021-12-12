@@ -24,10 +24,10 @@ export default function ManagerReport(props: any) {
 
     return (
         <View style={styles.container}>
-            <HeaderTitle title="Quản lí báo cáo" />
+            <HeaderTitle title="Quản lý báo cáo" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
             {

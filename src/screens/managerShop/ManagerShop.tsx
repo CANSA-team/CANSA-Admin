@@ -53,10 +53,10 @@ export default function ManagerShop(props: any) {
 
     return (
         <View style={styles.container}>
-            <HeaderTitle title="Quản lí các shop" />
+            <HeaderTitle title="Quản lý các shop" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
             {

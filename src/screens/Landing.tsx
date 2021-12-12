@@ -29,7 +29,7 @@ export default function Lauding() {
     }, [timeSampCheckLogin])
 
     useEffect(() => {
-        if (Object.keys(userPermission).length) {
+        if (userPermission && Object.keys(userPermission).length) {
             if (userPermission.permission_id === 3 || userPermission.permission_id === 4) {
                 navigate('homeStack')
             } else {
@@ -43,6 +43,16 @@ export default function Lauding() {
                         },
                     },]);
             }
+        }
+        else if (!userPermission) {
+            Alert.alert('Thông Báo', 'Tài khoản bạn không đủ quyền hạn', [
+                {
+                    text: "OK",
+                    onPress: () => { 
+                        dispatch(checkLogin());
+                        navigate('loginStack');
+                    },
+                },]);
         }
     }, [userPermission])
 

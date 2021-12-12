@@ -8,57 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import SlideItem from '../../components/SlideItem';
 import { deleteSlider, getSlider, SliderModel, SliderState, State } from '../../redux';
 
-const slider = [
-    {
-        slider_id: 1,
-        slider_image: "https://103.207.38.200:333/api/image/photo/374/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 1 nè",
-        status: 1,
-        slider_image_id: 374
-    },
-    {
-        slider_id: 2,
-        slider_image: "https://103.207.38.200:333/api/image/photo/375/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 2 nè",
-        status: 1,
-        slider_image_id: 375
-    },
-    {
-        slider_id: 3,
-        slider_image: "https://103.207.38.200:333/api/image/photo/376/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 3 nè",
-        status: 1,
-        slider_image_id: 376
-    },
-    {
-        slider_id: 4,
-        slider_image: "https://103.207.38.200:333/api/image/photo/377/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 4",
-        status: 1,
-        slider_image_id: 377
-    },
-    {
-        slider_id: 5,
-        slider_image: "https://103.207.38.200:333/api/image/photo/378/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 5",
-        status: 1,
-        slider_image_id: 378
-    },
-    {
-        slider_id: 6,
-        slider_image: "https://103.207.38.200:333/api/image/photo/379/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 6",
-        status: 1,
-        slider_image_id: 379
-    },
-    {
-        slider_id: 7,
-        slider_image: "https://103.207.38.200:333/api/image/photo/380/e4611a028c71342a5b083d2cbf59c494",
-        slider_title: "Slider 7",
-        status: 1,
-        slider_image_id: 380
-    }
-]
 
 export default function ManagerSlider(props: any) {
     const { navigation } = props;
@@ -98,10 +47,10 @@ export default function ManagerSlider(props: any) {
 
     return (
         <View style={styles.container}>
-            <HeaderTitle title="Quản lí Slider" />
+            <HeaderTitle title="Quản lý Slider" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigate('NewSlide')}>
                     <Ionicons name="ios-add" size={35} color="white" />

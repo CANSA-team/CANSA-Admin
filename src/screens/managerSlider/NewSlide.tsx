@@ -13,7 +13,7 @@ export default function NewSlide(props: any) {
     const { navigation } = props;
     const { control, handleSubmit, formState: { errors } } = useForm();
     const [avatarError, setAvatarError] = useState<boolean>(false);
-    const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494');
+    const [avatar, setAvatar] = useState('https://103.207.38.200:333/api/image/photo/373/e4611a028c71342a5b083d2cbf59c494');
     const [isLoading, setisLoading] = useState(false);
     const dispatch = useDispatch();
 
@@ -34,7 +34,7 @@ export default function NewSlide(props: any) {
         let saveAvt: Promise<void>
         let _avatar: ImageId = { id: 0 };
 
-        if (avatar != 'https://103.207.38.200:333/api/image/photo/46/e4611a028c71342a5b083d2cbf59c494') {
+        if (avatar != 'https://103.207.38.200:333/api/image/photo/373/e4611a028c71342a5b083d2cbf59c494') {
             const avatar_img = {
                 uri: avatar,
                 name: 'userProfile.jpg',
@@ -46,6 +46,15 @@ export default function NewSlide(props: any) {
                 setisLoading(false);
                 navigation.goBack();
             })
+        }
+        else {
+            Alert.alert('Thông Báo', 'Bạn chưa thêm hình! Vui lòng thêm hình vào!', [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        setisLoading(false);
+                    },
+                },]);
         }
     }
 
@@ -68,7 +77,7 @@ export default function NewSlide(props: any) {
             <HeaderTitle title="Thêm Slide" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
             <View style={{ marginHorizontal: 10 }}>

@@ -6,7 +6,7 @@ import HeaderTitle from '../../components/HeaderTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { vnd } from '../../consts/Selector';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { AdminState, OrderModel, OrderState, ShipModel, State, updateStatusOder, updateStatusOrder, UserModel, UserStage } from '../../redux';
+import { AdminState, OrderModel, OrderState, ShipModel, State, updateStatusOder, updateStatusOrder, UserPermissionsModel, UserStage } from '../../redux';
 import OderCard from '../../components/OderCard';
 import { useNavigation } from '../../utils/useNavigation';
 
@@ -23,7 +23,7 @@ export default function OderDetail(props: any) {
     const adminSate: AdminState = useSelector((state: State) => state.adminReducer);
     const { ship_price }: { ship_price: ShipModel } = adminSate;
     const userState: UserStage = useSelector((state: State) => state.userReducer);
-    const { userInfor }: { userInfor: UserModel } = userState;
+    const { userPermission }: { userPermission: UserPermissionsModel } = userState;
     let sub_price = 0;
     let total_price = 0;
 
@@ -73,14 +73,14 @@ export default function OderDetail(props: any) {
         <TouchableOpacity style={styles.statusPending} onPress={() => changeStatusOrder(2, _oder.oder_id)}>
             <Text style={styles.txtStatus}>Nhận hàng</Text>
         </TouchableOpacity>,
-        userInfor.user_permission === 3 ?
+        userPermission.permission_id === 3 ?
             <TouchableOpacity style={styles.statusPending} onPress={() => changeStatusOrder(3, _oder.oder_id)}>
                 <Text style={styles.txtStatus}>Giao ship</Text>
             </TouchableOpacity> :
             <View style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Đã nhận</Text>
             </View>,
-        userInfor.user_permission === 3 ?
+        userPermission.permission_id === 3 ?
             <View style={styles.statusPending}>
                 <Text style={styles.txtStatus}>Đã giao ship</Text>
             </View> :

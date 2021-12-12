@@ -48,7 +48,7 @@ export default function Login(props: any) {
   }, [dataLogin])
 
   useEffect(() => {
-    if (Object.keys(userPermission).length && isSend) {
+    if (userPermission && Object.keys(userPermission).length && isSend) {
       console.log(userPermission)
       if (userPermission.permission_id === 3 || userPermission.permission_id === 4) {
         setIsSend(false);
@@ -60,13 +60,23 @@ export default function Login(props: any) {
         setIsSend(false);
       }
     }
+    else if (!userPermission && isSend) {
+      Alert.alert('Thông Báo', 'Tài khoản bạn không đủ quyền hạn', [
+        {
+          text: "OK",
+          onPress: () => {
+            setIsSend(false);
+            dispatch(checkLogin());
+          },
+        },]);
+    }
   }, [userPermission])
 
   useEffect(() => {
     if (Object.keys(userInfor).length && isSend) {
       dispatch(getUserPermissions());
     } else if (!userInfor && isSend) {
-      Alert.alert('Thông Báo', 'Không đúng mật khẩu')
+      Alert.alert('Thông Báo', 'Không đúng mật khẩu hoặc không đủ quyền')
       setIsSend(false);
     }
   }, [userInfor, isSend])

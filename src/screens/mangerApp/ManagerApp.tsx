@@ -15,7 +15,7 @@ export default function ManagerApp(props: any) {
     const { commission_rate, ship_price }: { commission_rate: CommissionModel, ship_price: ShipModel } = adminSate;
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isLoadCommission, setIsCommission] = useState<boolean>(false);
-    const [isLoadShip,setIsLoadShip] = useState<boolean>(false);
+    const [isLoadShip, setIsLoadShip] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -67,10 +67,10 @@ export default function ManagerApp(props: any) {
 
     return (
         <View style={styles.container}>
-            <HeaderTitle title="Quản lí App" />
+            <HeaderTitle title="Quản lý App" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={35} color="white"/>
+                    <MaterialIcons name="arrow-back" size={35} color="white" />
                 </TouchableOpacity>
             </View>
             {
@@ -109,16 +109,16 @@ export default function ManagerApp(props: any) {
                             {errorCommission.commission && <Text style={styles.txtError}>* Hoa hồng từ 0 - 99</Text>}
 
                             {
-                                isLoadCommission ? 
-                                <View style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                                    <ActivityIndicator size="large" color="#fff" />
-                                </View>
-                                :
-                                <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                                    <View style={{ padding: 6 }}>
-                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
+                                isLoadCommission ?
+                                    <View style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                        <ActivityIndicator size="large" color="#fff" />
                                     </View>
-                                </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={handleSubmitCommission(onSubmitCommission)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                        <View style={{ padding: 6 }}>
+                                            <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
+                                        </View>
+                                    </TouchableOpacity>
                             }
                         </View>
 
@@ -151,17 +151,17 @@ export default function ManagerApp(props: any) {
 
                             {
                                 isLoadShip ?
-                                <View style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20}}>
-                                    <ActivityIndicator size="large" color="#fff" />
-                                </View>
-                                :
-                                <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
-                                    <View style={{ padding: 6 }}>
-                                        <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
+                                    <View style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                        <ActivityIndicator size="large" color="#fff" />
                                     </View>
-                                </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={handleSubmitShip(onSubmitShip)} style={{ backgroundColor: COLORS.primary, borderRadius: 5, marginTop: 20 }}>
+                                        <View style={{ padding: 6 }}>
+                                            <Text style={{ textAlign: 'center', fontSize: 18, color: '#fff' }}>Sửa</Text>
+                                        </View>
+                                    </TouchableOpacity>
                             }
-                            
+
                         </View>
                     </>
             }

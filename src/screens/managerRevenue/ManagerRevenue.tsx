@@ -84,7 +84,7 @@ export default function ManagerRevenue(props: any) {
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderTitle title="Doanh thu của shop"></HeaderTitle>
+            <HeaderTitle title="Doanh thu App"></HeaderTitle>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back" size={35} color="white" />

@@ -64,8 +64,8 @@ export default function Home() {
                                         <Menu onTab={() => navigate('ManagerShop')} icon="isv" title="Quản lý các shop" description="Quản lý những người bán hàng" />
                                         <Menu onTab={() => navigate('ManagerUser')} icon="team" title="Quản lý người dùng" description="Quản lý những người người dùng app" />
                                         <Menu onTab={() => navigate('ManagerRevenue')} icon="barschart" title="Quản lý doanh thu" description="Quản lý doanh thu của app" />
-                                        <Menu onTab={() => navigate('Ordered')} icon="inbox" title="Quản lí order" description="Quản lí các sản phẩm người dùng đã đặt" />
-                                        <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý report" description="Quản lý các report của khách hàng" />
+                                        <Menu onTab={() => navigate('Ordered')} icon="inbox" title="Quản lý đơn hàng" description="Quản lý các sản phẩm người dùng đã đặt" />
+                                        <Menu onTab={() => navigate('ManagerReport')} icon="warning" title="Quản lý báo cáo" description="Quản lý các report của khách hàng" />
                                         <Menu onTab={() => navigate('AddUser')} icon="sharealt" title="Cấp tài khoản" description="Cấp tài khoản admin hoặc ship" />
 
                                     </>

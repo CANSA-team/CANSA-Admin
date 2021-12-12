@@ -70,7 +70,7 @@ export default function ManagerUser(props: any) {
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderTitle title="Quản lí người dùng" />
+            <HeaderTitle title="Quản lý người dùng" />
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back" size={35} color="white" />
