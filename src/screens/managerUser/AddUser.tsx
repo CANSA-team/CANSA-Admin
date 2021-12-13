@@ -77,7 +77,7 @@ export default function AddUser(props: any) {
     useEffect(() => {
 
         if (dataCreateUser?.data) {
-            Alert.alert('Thông Báo', `ID:${dataCreateUser?.data?.user_id} \n Name:${dataCreateUser?.data?.user_name} \n EMAIL:${email} \n PASSWORD:${dataCreateUser?.data?.user_password}`, [{ text: 'OK', onPress: () => setIsSend(false) }]);
+            Alert.alert('Thông Báo', `ID:${dataCreateUser?.data?.user_id} \n Name:${dataCreateUser?.data?.user_name} \n EMAIL:${email} \n PASSWORD:${dataCreateUser?.data?.user_password} \n Yêu cầu: Đăng nhập tài khoản vào ứng dụng dành cho người dùng và điền thông tin đầy đủ vào tài khoản để được mở khóa tài khoản!`, [{ text: 'OK', onPress: () => setIsSend(false) }]);
         } else if (dataCreateUser?.message && isSend) {
             Alert.alert('Thông Báo', dataCreateUser.message, [{ text: 'OK', onPress: () => setIsSend(false) }]);
         }

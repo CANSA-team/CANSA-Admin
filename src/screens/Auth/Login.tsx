@@ -76,7 +76,7 @@ export default function Login(props: any) {
     if (Object.keys(userInfor).length && isSend) {
       dispatch(getUserPermissions());
     } else if (!userInfor && isSend) {
-      Alert.alert('Thông Báo', 'Không đúng mật khẩu hoặc không đủ quyền')
+      Alert.alert('Thông Báo', 'Không đúng mật khẩu, không đủ quyền hạn hoặc chưa được kích hoạt!')
       setIsSend(false);
     }
   }, [userInfor, isSend])

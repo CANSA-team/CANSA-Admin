@@ -48,7 +48,7 @@ export default function Lauding() {
             Alert.alert('Thông Báo', 'Tài khoản bạn không đủ quyền hạn', [
                 {
                     text: "OK",
-                    onPress: () => { 
+                    onPress: () => {
                         dispatch(checkLogin());
                         navigate('loginStack');
                     },
@@ -59,6 +59,15 @@ export default function Lauding() {
     useEffect(() => {
         if (Object.keys(userInfor).length) {
             dispatch(getUserPermissions());
+        } else if (!userInfor) {
+            Alert.alert('Thông Báo', 'Tài khoản bạn không đủ quyền hạn hoặc chưa được kích hoạt!', [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch(checkLogin());
+                        navigate('loginStack');
+                    },
+                },]);
         }
     }, [userInfor])
 
