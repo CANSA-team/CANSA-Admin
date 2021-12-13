@@ -128,13 +128,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     up: {
-        flex: 3,
+        flex: 4,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 30,
+        marginBottom: 20,
     },
     down: {
-        flex: 7,
+        flex: 6,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center'
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
-        backgroundColor: 'rgb(221, 97, 97)'
+        backgroundColor: COLORS.primary
     },
     retrievalButtonTitle: {
         fontSize: 18,
